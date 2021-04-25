@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>lesson5 データベース(MySQL) | FRAGMENTs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="MySQLを使う流れ MySQLに接続する MySQLに命令する テーブルにデータを登録する テーブルからデータを取得する   MySQLとの接続を切断する  MySQLに接続しようmysql クライアントからmysqlサーバへの接続 -h:host ホスト名   -u:user ユーザー名   -D database データベース名(大文字)   -p password 値を指定しないとターミナ">
+<meta property="og:type" content="article">
+<meta property="og:title" content="lesson5 データベース(MySQL)">
+<meta property="og:url" content="https://takeshi-g.github.io/fragments/lesson5-database/index.html">
+<meta property="og:site_name" content="FRAGMENTs">
+<meta property="og:description" content="MySQLを使う流れ MySQLに接続する MySQLに命令する テーブルにデータを登録する テーブルからデータを取得する   MySQLとの接続を切断する  MySQLに接続しようmysql クライアントからmysqlサーバへの接続 -h:host ホスト名   -u:user ユーザー名   -D database データベース名(大文字)   -p password 値を指定しないとターミナ">
+<meta property="og:locale" content="ja_JP">
+<meta property="article:published_time" content="2021-04-25T14:29:07.000Z">
+<meta property="article:modified_time" content="2021-04-25T15:06:29.710Z">
+<meta property="article:author" content="Takeshi Goto">
+<meta property="article:tag" content="MySQL">
+<meta property="article:tag" content="データベース">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/fragments/atom.xml" title="FRAGMENTs" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/fragments/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/fragments/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fragments/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/fragments/" id="logo">FRAGMENTs</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/fragments/" id="subtitle">独学でエンジニアになれるか挑戦しつつ、マラソンの３時間切りも挑戦する記録</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/fragments/">Home</a>
+        
+          <a class="main-nav-link" href="/fragments/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/fragments/atom.xml" title="RSSフィード"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="検索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="検索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://takeshi-g.github.io/fragments"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-lesson5-database" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/fragments/lesson5-database/" class="article-date">
+  <time class="dt-published" datetime="2021-04-25T14:29:07.000Z" itemprop="datePublished">2021-04-25</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      lesson5 データベース(MySQL)
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="MySQLを使う流れ"><a href="#MySQLを使う流れ" class="headerlink" title="MySQLを使う流れ"></a>MySQLを使う流れ</h2><ol>
+<li>MySQLに接続する</li>
+<li>MySQLに命令する<ul>
+<li>テーブルにデータを登録する</li>
+<li>テーブルからデータを取得する</li>
+</ul>
+</li>
+<li>MySQLとの接続を切断する</li>
+</ol>
+<h2 id="MySQLに接続しよう"><a href="#MySQLに接続しよう" class="headerlink" title="MySQLに接続しよう"></a>MySQLに接続しよう</h2><h3 id="mysql-クライアントからmysqlサーバへの接続"><a href="#mysql-クライアントからmysqlサーバへの接続" class="headerlink" title="mysql クライアントからmysqlサーバへの接続"></a>mysql クライアントからmysqlサーバへの接続</h3><ul>
+<li><pre><code>-h:host ホスト名
+</code></pre>
+</li>
+<li><pre><code>-u:user ユーザー名
+</code></pre>
+</li>
+<li><pre><code>-D database データベース名(大文字)
+</code></pre>
+</li>
+<li><pre><code>-p password 値を指定しないとターミナルで入力、非表示なのでセキュア
+</code></pre>
+</li>
+</ul>
+<p>appコンテナからdbコンテナのmysqlに接続する<br><br><code>$ docker-compose exec app mysql -h db -u book_log -D book_log -p</code><br><br>パスワードは「pass」を入力</p>
+<h3 id="mysqlとの接続を切断する"><a href="#mysqlとの接続を切断する" class="headerlink" title="mysqlとの接続を切断する"></a>mysqlとの接続を切断する</h3><p><code>&gt;quit</code><br><br>(<code>exit</code>でも可能)</p>
+<h3 id="接続と切断"><a href="#接続と切断" class="headerlink" title="接続と切断"></a>接続と切断</h3><ul>
+<li>MySQLへ接続<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$ docker-compose exec app mysql -h db -u book_log -D book_log -p</span><br><span class="line">Enter password:</span><br><span class="line">Welcome to the MariaDB monitor.  Commands end with ; or \g.</span><br><span class="line">Your MySQL connection id is 2</span><br><span class="line">Server version: 5.5.62 MySQL Community Server (GPL)</span><br><span class="line"></span><br><span class="line">Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.</span><br><span class="line"></span><br><span class="line">Type &#39;help;&#39; or &#39;\h&#39; for help. Type &#39;\c&#39; to clear the current input statement.</span><br></pre></td></tr></table></figure></li>
+<li>MySQLから切断<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">MySQL [book_log]&gt; quit</span><br><span class="line">Bye</span><br></pre></td></tr></table></figure>
+<h2 id="SQL文でデータベースを操作する"><a href="#SQL文でデータベースを操作する" class="headerlink" title="SQL文でデータベースを操作する"></a>SQL文でデータベースを操作する</h2><h3 id="テーブルの作成"><a href="#テーブルの作成" class="headerlink" title="テーブルの作成"></a>テーブルの作成</h3><code>CREATE TABLE</code> 文で作成<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE[IF NOT EXISTS]&lt;テーブル名&gt;(</span><br><span class="line">&lt;列名1&gt;&lt;データ型&gt;&lt;制約&gt;,</span><br><span class="line">&lt;列名2&gt;&lt;データ型&gt;&lt;制約&gt;,</span><br><span class="line">・・・</span><br><span class="line">)&lt;テーブルオプション&gt;;</span><br></pre></td></tr></table></figure></li>
+<li>命名ルール<ul>
+<li>半角英数</li>
+<li>アンダーバー</li>
+<li>最初の文字はアルファベット</li>
+<li>名前の重複はだめ（１つのデータベースに同名のテーブルダメ,１つのテーブルに同名の列はダメ）</li>
+</ul>
+</li>
+</ul>
+<h4 id="データ型-列ごとにデータ型を宣言"><a href="#データ型-列ごとにデータ型を宣言" class="headerlink" title="データ型　列ごとにデータ型を宣言"></a>データ型　列ごとにデータ型を宣言</h4><ul>
+<li><code>INTEGER</code> 整数</li>
+<li><code>VARCHAR</code> 文字列（可変長文字列）</li>
+<li><code>DATE</code> 日付</li>
+<li><code>TIMESTAMP</code> 日付と時間の両方を含む値</li>
+</ul>
+<h4 id="制約-鉄に入れるデータに制限や条件をかけること"><a href="#制約-鉄に入れるデータに制限や条件をかけること" class="headerlink" title="制約　鉄に入れるデータに制限や条件をかけること"></a>制約　鉄に入れるデータに制限や条件をかけること</h4><ul>
+<li><code>NOT NULL</code> データを必ず入れる</li>
+<li><code>PRIMARY KEY</code> プライマリーキー（主キー）制約</li>
+<li><code>AUTO _INCREMENT</code> データを追加した際に最大値より1づつ増えていく</li>
+<li><code>DEFAULT CURRENT_TIMESTAMP</code> 対象の列に値を指定しなかった場合にデフォルト値が現在のタイムスタンプに設定される。</li>
+</ul>
+<h3 id="テーブルを作成してみる"><a href="#テーブルを作成してみる" class="headerlink" title="テーブルを作成してみる"></a>テーブルを作成してみる</h3><p>mysqlにつないで以下のコマンドをメモ帳などからコピペで実行。<br><br>typoでミスらないように。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE book_log (</span><br><span class="line">  id INTEGER AUTO_INCREMENT NOT NULL PRIMARY KEY,</span><br><span class="line">  book_name VARCHAR(255),</span><br><span class="line">  author VARCHAR(100),</span><br><span class="line">  status VARCHAR(50),</span><br><span class="line">  score INTEGER,</span><br><span class="line">  review VARCHAR(500),</span><br><span class="line">  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP</span><br><span class="line">) DEFAULT CHARACTER SET&#x3D;  utf8mb4;</span><br></pre></td></tr></table></figure>
+<h3 id="テーブルの確認"><a href="#テーブルの確認" class="headerlink" title="テーブルの確認"></a>テーブルの確認</h3><p><code>SHOW COLUMNS FROM book_log;</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">+------------+--------------+------+-----+-------------------+----------------+</span><br><span class="line">| Field      | Type         | Null | Key | Default           | Extra          |</span><br><span class="line">+------------+--------------+------+-----+-------------------+----------------+</span><br><span class="line">| id         | int(11)      | NO   | PRI | NULL              | auto_increment |</span><br><span class="line">| book_name  | varchar(255) | YES  |     | NULL              |                |</span><br><span class="line">| author     | varchar(100) | YES  |     | NULL              |                |</span><br><span class="line">| status     | varchar(50)  | YES  |     | NULL              |                |</span><br><span class="line">| score      | int(11)      | YES  |     | NULL              |                |</span><br><span class="line">| review     | varchar(500) | YES  |     | NULL              |                |</span><br><span class="line">| created_at | timestamp    | NO   |     | CURRENT_TIMESTAMP |                |</span><br><span class="line">+------------+--------------+------+-----+-------------------+----------------+</span><br></pre></td></tr></table></figure>
+<h3 id="テーブルの削除"><a href="#テーブルの削除" class="headerlink" title="テーブルの削除"></a>テーブルの削除</h3><p><code>DROP TABLE &lt;テーブル名&gt;;</code></p>
+<h2 id="ファイルからSQL文を実行"><a href="#ファイルからSQL文を実行" class="headerlink" title="ファイルからSQL文を実行"></a>ファイルからSQL文を実行</h2><p>テキストファイルにSQL文を保存、下記のコマンドを実行<br><br><code>mysql &lt; text_file</code></p>
+<p>Docker上のMySQLに対して実行するなら</p>
+<p><code>docker-compose exec app /bin/bash</code> (appコンテナ内でコマンドを実行)<br><br><code>mysql -h db -u book_log -D book_log -p &lt; text_file</code></p>
+<h2 id="PHPからMySQLに接続"><a href="#PHPからMySQLに接続" class="headerlink" title="PHPからMySQLに接続"></a>PHPからMySQLに接続</h2><h3 id="MySQLiの使い方"><a href="#MySQLiの使い方" class="headerlink" title="MySQLiの使い方"></a>MySQLiの使い方</h3><ul>
+<li>mysqli_connext関数<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">`mysqli_connect(<span class="string">&#x27;my_host&#x27;</span>,<span class="string">&#x27;my_user&#x27;</span>,<span class="string">&#x27;my_password&#x27;</span>,<span class="string">&#x27;my_db&#x27;</span>)`</span><br></pre></td></tr></table></figure></li>
+</ul>
+<p>読書ログでMySQLに接続するなら</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysqli_connect(<span class="string">&#x27;db&#x27;</span>,<span class="string">&#x27;book_log&#x27;</span>,<span class="string">&#x27;pass&#x27;</span>,<span class="string">&#x27;book_log&#x27;</span>);</span><br></pre></td></tr></table></figure>
+
+<h3 id="MySQLに接続できないケースの対策"><a href="#MySQLに接続できないケースの対策" class="headerlink" title="MySQLに接続できないケースの対策"></a>MySQLに接続できないケースの対策</h3><p>mysqli_connect()は接続に失敗した場合にFALSEを返す。<br><br>FALSEが帰ってきたらアプリケーションを終了させよう<br></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$link</span> = mysqli_connect(<span class="string">&#x27;db&#x27;</span>,<span class="string">&#x27;book_log&#x27;</span>,<span class="string">&#x27;pass&#x27;</span>,<span class="string">&#x27;book_log&#x27;</span>);</span><br><span class="line"><span class="keyword">if</span>(!<span class="variable">$link</span>) &#123;</span><br><span class="line">	<span class="keyword">echo</span> <span class="string">&#x27;Error: データベースに接続できません&#x27;</span> . PHP_EOL;</span><br><span class="line">	<span class="keyword">echo</span> <span class="string">&#x27;Debugging error: &#x27;</span>. mysqli_connect_error() . PHP_EOL;</span><br><span class="line">	<span class="keyword">exit</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// $linkがFALSEのときにif文が実行-&gt; エラーが表示される</span></span><br></pre></td></tr></table></figure>
+<h2 id="MySQLとの接続を切断する"><a href="#MySQLとの接続を切断する" class="headerlink" title="MySQLとの接続を切断する"></a>MySQLとの接続を切断する</h2><ul>
+<li>mysqli_close関数<br><br>　$link: mysqli_connect()が返すリンクIDが格納されている<br><code>mysqli_close($link);</code></li>
+</ul>
+<h2 id="テーブルにデータを登録する"><a href="#テーブルにデータを登録する" class="headerlink" title="テーブルにデータを登録する"></a>テーブルにデータを登録する</h2><p>MySQL にコマンドで登録する方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">INSERT INTO companies (</span><br><span class="line">  name,</span><br><span class="line">  establishment_date,</span><br><span class="line">  founder</span><br><span class="line">) VALUES (</span><br><span class="line">  &#39;mercari inc&#39;,</span><br><span class="line">  &#39;2012-02-01&#39;,</span><br><span class="line">  &#39;Shintaro Yamada&#39;</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<p>結果の確認</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">SELECT * FROM companies\G</span><br><span class="line">                id: 1</span><br><span class="line">              name: mercari inc</span><br><span class="line">establishment_date: 2012-02-01</span><br><span class="line">           founder: Shintaro Yamada</span><br><span class="line">        created_at: 2021-04-17 19:34:05</span><br></pre></td></tr></table></figure>
+<h3 id="PHPからMySQLに対してSQL文を実行する方法"><a href="#PHPからMySQLに対してSQL文を実行する方法" class="headerlink" title="PHPからMySQLに対してSQL文を実行する方法"></a>PHPからMySQLに対してSQL文を実行する方法</h3><p>INSERT文を使うと、テーブルに1行のデータを挿入する<br><code>$link</code>:mysqli_connect() が返すリンクIDが格納されている<br><br><code>$query</code>:SQL文の文字列</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysqli_query(<span class="variable">$link</span>, <span class="variable">$query</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="複数行にまたがる文字列を表記しよう（ヒアドキュメント"><a href="#複数行にまたがる文字列を表記しよう（ヒアドキュメント" class="headerlink" title="複数行にまたがる文字列を表記しよう（ヒアドキュメント)"></a>複数行にまたがる文字列を表記しよう（ヒアドキュメント)</h2><ul>
+<li>構文<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;&lt;&lt;EOT　<span class="comment">// ID</span></span><br><span class="line">内容</span><br><span class="line">EOT; <span class="comment">// 終わりのID</span></span><br></pre></td></tr></table></figure>
+$sqlにSQL文を格納し、mysqli()関数の第２引数に渡すと、PHPからSQL文を実行できる<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$sql</span> = &lt;&lt;&lt;EOT</span><br><span class="line">INSERT INTO companies (</span><br><span class="line">    name,</span><br><span class="line">    establishment_date,</span><br><span class="line">    founder</span><br><span class="line">) VALUES (</span><br><span class="line">    <span class="string">&#x27;SmartHR Ink&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;2013-01-23&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Shoji Miyata&#x27;</span></span><br><span class="line">)</span><br><span class="line">EOT;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysqli_query($link, $sql);</span><br></pre></td></tr></table></figure>
+<h3 id="SQL文実行時にエラーがあった場合、エラーメッセージを表示する"><a href="#SQL文実行時にエラーがあった場合、エラーメッセージを表示する" class="headerlink" title="SQL文実行時にエラーがあった場合、エラーメッセージを表示する"></a>SQL文実行時にエラーがあった場合、エラーメッセージを表示する</h3></li>
+</ul>
+<p>queryの戻り値を$resultに格納、$result がTRUEならデータを追加と表示、$resultがFALSEならエラーメッセージを表示する。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$result</span> = mysqli_query(<span class="variable">$link</span>, <span class="variable">$sql</span>);</span><br><span class="line"><span class="keyword">if</span> (<span class="variable">$result</span>) &#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&#x27;データを追加しました&#x27;</span> . PHP_EOL;</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&#x27;Error: データの追加に失敗しました&#x27;</span> . PHP_EOL;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&#x27;Debugging error: &#x27;</span> . mysqli_error(<span class="variable">$link</span>) . PHP_EOL;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="バリデーション処理"><a href="#バリデーション処理" class="headerlink" title="バリデーション処理"></a>バリデーション処理</h2><h3 id="論理演算子"><a href="#論理演算子" class="headerlink" title="論理演算子"></a>論理演算子</h3><ul>
+<li><p>! 否定の演算子 // TRUEでないときTRUEを返す</p>
+</li>
+<li><p>&amp;&amp; 論理積の演算子 // 左から判定し、TRUEなら右の判定へとすすむ。すべてTRUEならTRUEを返す</p>
+</li>
+<li><p>|| 論理積の演算子 // 左から判定し、TRUEになった時点でTRUEを返す</p>
+</li>
+</ul>
+<h3 id="書籍名のバリデーション-・空文字でないか？-・255文字以下か？"><a href="#書籍名のバリデーション-・空文字でないか？-・255文字以下か？" class="headerlink" title="書籍名のバリデーション　・空文字でないか？　・255文字以下か？"></a>書籍名のバリデーション　・空文字でないか？　・255文字以下か？</h3><p>// バリデーション処理する関数</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">validate</span>(<span class="params"><span class="variable">$reviews</span></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="variable">$errors</span> = [];   <span class="comment">// エラーを格納する配列</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 書籍名のバリデーション　書籍名が空のときと、255文字以上のとにきにエラーを配列に格納し、処理を中断する</span></span><br><span class="line">    <span class="keyword">if</span> (!mb_strlen(<span class="variable">$reviews</span>[<span class="string">&#x27;title&#x27;</span>])) &#123;</span><br><span class="line">        <span class="variable">$errors</span>[<span class="string">&#x27;title&#x27;</span>] = <span class="string">&#x27;書籍名を入力してください&#x27;</span>;</span><br><span class="line">    &#125; <span class="keyword">elseif</span> (mb_strlen(<span class="variable">$reviews</span>[<span class="string">&#x27;title&#x27;</span>]) &gt; <span class="number">255</span>) &#123;</span><br><span class="line">        <span class="variable">$errors</span>[<span class="string">&#x27;title&#x27;</span>] = <span class="string">&#x27;書籍名は255文字以内で入力してください&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="variable">$errors</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="評価のバリデーション-5以下の整数であるか？-１～５"><a href="#評価のバリデーション-5以下の整数であるか？-１～５" class="headerlink" title="評価のバリデーション　5以下の整数であるか？(１～５)"></a>評価のバリデーション　5以下の整数であるか？(１～５)</h3><p>型キャスト（型の変換）</p>
+<ul>
+<li>(int) 整数への変換</li>
+<li>(bool) 論理値への変換</li>
+<li>(string) 文字列への変換</li>
+</ul>
+<p>例文</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$a</span> = <span class="string">&#x27;2&#x27;</span>;　<span class="comment">// string(1) &quot;2&quot;</span></span><br><span class="line">$ var_dump((<span class="keyword">int</span>)<span class="variable">$a</span>); <span class="comment">// int(2) 文字列から整数へキャストされた</span></span><br></pre></td></tr></table></figure>
+<p>比較演算子</p>
+<ul>
+<li>$a == $b 等しい場合にTRUE 比較時に型キャストされる</li>
+<li>$a === $b 型キャストは行われない（厳密な比較）</li>
+<li>$a != $b 等しくない場合にTRUE 比較時に型キャストされる</li>
+<li>$a !== $b 型キャストは行われない（厳密な比較)</li>
+<li>$a &lt; $b $aが$bより小さい場合にTRUE</li>
+<li>$a &gt; $b $aが$bより大きい場合にTRUE</li>
+<li>$a &lt;= $b $aが$bより小さいか等しい場合(以下)にTRUE</li>
+<li>$a &gt;= $b $aが$bより大きいか等しい場合(以上)にTRUE</li>
+</ul>
+<p>入力時に整数にキャストしておく<br><code>$review[&#39;score&#39;] = (int)trim(fgets(STDIN));</code></p>
+<p>1から5の整数かのバリデート処理</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (!<span class="variable">$review</span>[<span class="string">&#x27;score&#x27;</span>]) &#123;</span><br><span class="line">    <span class="variable">$errors</span>[<span class="string">&#x27;score&#x27;</span>] = <span class="string">&#x27;評価を整数で入力してください&#x27;</span>;</span><br><span class="line">&#125; <span class="keyword">elseif</span> (<span class="variable">$review</span>[<span class="string">&#x27;score&#x27;</span>] &gt; <span class="number">5</span> || <span class="variable">$review</span>[<span class="string">&#x27;score&#x27;</span>] &lt;<span class="number">1</span>) &#123;</span><br><span class="line">    <span class="variable">$errors</span>[<span class="string">&#x27;score&#x27;</span>] = <span class="string">&#x27;評価は1から5の整数で入力してください&#x27;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="入力してほしい文字列と一致しているかのバリデーション"><a href="#入力してほしい文字列と一致しているかのバリデーション" class="headerlink" title="入力してほしい文字列と一致しているかのバリデーション"></a>入力してほしい文字列と一致しているかのバリデーション</h3><p><code>in_array()</code></p>
+<ul>
+<li>使い方<br>in_array(探す値, 配列, &lt;型のチェック&gt;) : TRUE か FALSE を返す。<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$status</span> = [<span class="string">&#x27;未読&#x27;</span>, <span class="string">&#x27;読了&#x27;</span>, <span class="string">&#x27;読んでる&#x27;</span>];    <span class="comment">// この配列の値に一致しているもの以外をFALSEにする</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (!in_array(<span class="variable">$review</span>[<span class="string">&#x27;status&#x27;</span>], <span class="variable">$status</span>)) &#123;</span><br><span class="line">    <span class="variable">$errors</span>[<span class="string">&#x27;status&#x27;</span>] = <span class="string">&#x27;(読了,読んでる,未読)のうちいずれかを入力してください&#x27;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="SQLのテーブルからデータを取得する"><a href="#SQLのテーブルからデータを取得する" class="headerlink" title="SQLのテーブルからデータを取得する"></a>SQLのテーブルからデータを取得する</h2></li>
+</ul>
+<p>SELECT文を使う</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT &lt;列名&gt;,&lt;列名&gt; FROM テーブル名; &#x2F;&#x2F; 指定した列のデータを取得する。</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT ＊ FROM テーブル名;  &#x2F;&#x2F; すべての列のデータを取得する。</span><br></pre></td></tr></table></figure>
+<h2 id="PHPからSQLのSELECT文を実行してテーブルからデータを取得する。"><a href="#PHPからSQLのSELECT文を実行してテーブルからデータを取得する。" class="headerlink" title="PHPからSQLのSELECT文を実行してテーブルからデータを取得する。"></a>PHPからSQLのSELECT文を実行してテーブルからデータを取得する。</h2><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// データベースに接続する</span></span><br><span class="line"><span class="variable">$link</span> = mysqli_connect(<span class="string">&#x27;db&#x27;</span>, <span class="string">&#x27;book_log&#x27;</span>, <span class="string">&#x27;pass&#x27;</span>, <span class="string">&#x27;book_log&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// SQL文を実行、結果（mysqli_resultオブジェクト)が返ってくる。結果を$rsultsに格納。</span></span><br><span class="line"><span class="variable">$sql</span> = <span class="string">&#x27;SELECT name, founder FROM companies&#x27;</span>;</span><br><span class="line"><span class="variable">$results</span> = mysqli_query(<span class="variable">$link</span>, <span class="variable">$sql</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// mysqli_resultオブジェクトを連想配列で取得（変換する、ここでは$companyに連想配列を格納し,</span></span><br><span class="line"><span class="keyword">while</span>文でループ処理している）</span><br><span class="line"><span class="keyword">while</span>(<span class="variable">$company</span> = mysqli_fetch_assoc(<span class="variable">$results</span>)) &#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&#x27;会社名: &#x27;</span> . <span class="variable">$company</span>[<span class="string">&#x27;name&#x27;</span>] . PHP_EOL;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&#x27;代表者: &#x27;</span> . <span class="variable">$company</span>[<span class="string">&#x27;founder&#x27;</span>] . PHP_EOL;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// データの使用後にメモリを解放している。</span></span><br><span class="line">mysqli_free_result(<span class="variable">$results</span>);</span><br></pre></td></tr></table></figure>
+
+<h2 id="mysqli関数-まとめ"><a href="#mysqli関数-まとめ" class="headerlink" title="mysqli関数　まとめ"></a>mysqli関数　まとめ</h2><h3 id="PHPからMySQLに接続-1"><a href="#PHPからMySQLに接続-1" class="headerlink" title="PHPからMySQLに接続"></a>PHPからMySQLに接続</h3><p>mysqli_connect関数<br><br><code>mysqli_connect(&#39;my_host&#39;,&#39;my_user&#39;,&#39;my_password&#39;,&#39;my_db&#39;)</code><br><br><code>$link = mysqli_connect(&#39;my_host&#39;,&#39;my_user&#39;,&#39;my_password&#39;,&#39;my_db&#39;) // リンクIDを$linkに格納</code></p>
+<h3 id="PHPからMySQLとの接続を切断する"><a href="#PHPからMySQLとの接続を切断する" class="headerlink" title="PHPからMySQLとの接続を切断する"></a>PHPからMySQLとの接続を切断する</h3><p>mysqli_close関数<br>mysqli_close($link)<br>$link: mysqli_connect()が返すリンクID</p>
+<h3 id="PHPからMySQLに対してSQL文を実行する"><a href="#PHPからMySQLに対してSQL文を実行する" class="headerlink" title="PHPからMySQLに対してSQL文を実行する"></a>PHPからMySQLに対してSQL文を実行する</h3><p><code>mysqli_query($link, $query)</code><br><br>$link:mysqli_connect() が返すリンクID<br><br>$query:SQL文の文字列<br><br></p>
+<p>SQL文を(ヒアドキュメントなどで)$queryに格納し、$link(リンクID)と一緒にmysqli_query()に渡す。<br></p>
+<h4 id="INSERT-INTO文-登録"><a href="#INSERT-INTO文-登録" class="headerlink" title="INSERT INTO文　(登録)"></a>INSERT INTO文　(登録)</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$sql</span> = &lt;&lt;&lt;EOT</span><br><span class="line">INSERT INTO companies (</span><br><span class="line">    name,</span><br><span class="line">    establishment_date,</span><br><span class="line">    founder</span><br><span class="line">) VALUES (</span><br><span class="line">    <span class="string">&#x27;SmartHR Ink&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;2013-01-23&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Shoji Miyata&#x27;</span></span><br><span class="line">)</span><br><span class="line">EOT;</span><br></pre></td></tr></table></figure>
+<h4 id="SELECT文-データの取得"><a href="#SELECT文-データの取得" class="headerlink" title="SELECT文　(データの取得)"></a>SELECT文　(データの取得)</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$sql</span> = <span class="string">&#x27;SELECT name, founder FROM companies&#x27;</span>;</span><br></pre></td></tr></table></figure>
+
+<h3 id="SQLの結果であるmysqli-resultオブジェクト-を連想配列で取得する"><a href="#SQLの結果であるmysqli-resultオブジェクト-を連想配列で取得する" class="headerlink" title="SQLの結果であるmysqli_resultオブジェクト を連想配列で取得する"></a>SQLの結果であるmysqli_resultオブジェクト を連想配列で取得する</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysqli_fetch_assoc(<span class="variable">$results</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="SQLの結果をメモリから解放する。"><a href="#SQLの結果をメモリから解放する。" class="headerlink" title="SQLの結果をメモリから解放する。"></a>SQLの結果をメモリから解放する。</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysqli_free_result(<span class="variable">$results</span>);</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://takeshi-g.github.io/fragments/lesson5-database/" data-id="cknxb39oa00091vozbg9c0rqd" data-title="lesson5 データベース(MySQL)" class="article-share-link">共有</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/fragments/tags/MySQL/" rel="tag">MySQL</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/fragments/tags/%E3%83%87%E3%83%BC%E3%82%BF%E3%83%99%E3%83%BC%E3%82%B9/" rel="tag">データベース</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/fragments/lesson4-01/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前の記事</strong>
+      <div class="article-nav-title">lesson4 PHPでテキストアプリ開発</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">タグ</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/fragments/tags/MySQL/" rel="tag">MySQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/fragments/tags/PHP/" rel="tag">PHP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/fragments/tags/ToDo/" rel="tag">ToDo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/fragments/tags/wsl2-%E7%92%B0%E5%A2%83%E6%A7%8B%E7%AF%89-Docker-GitHub/" rel="tag">wsl2 環境構築 Docker GitHub</a></li><li class="tag-list-item"><a class="tag-list-link" href="/fragments/tags/%E3%83%87%E3%83%BC%E3%82%BF%E3%83%99%E3%83%BC%E3%82%B9/" rel="tag">データベース</a></li><li class="tag-list-item"><a class="tag-list-link" href="/fragments/tags/%E6%A7%8B%E6%96%87/" rel="tag">構文</a></li><li class="tag-list-item"><a class="tag-list-link" href="/fragments/tags/%E7%8B%AC%E5%AD%A6%E3%82%A8%E3%83%B3%E3%82%B8%E3%83%8B%E3%82%A2/" rel="tag">独学エンジニア</a></li><li class="tag-list-item"><a class="tag-list-link" href="/fragments/tags/%E8%A6%81%E4%BB%B6%E5%AE%9A%E7%BE%A9/" rel="tag">要件定義</a></li><li class="tag-list-item"><a class="tag-list-link" href="/fragments/tags/%E8%AA%AD%E6%9B%B8%E3%83%AD%E3%82%B0%E3%82%B5%E3%83%BC%E3%83%93%E3%82%B9/" rel="tag">読書ログサービス</a></li><li class="tag-list-item"><a class="tag-list-link" href="/fragments/tags/%E8%AA%B2%E9%A1%8C%E5%AE%9A%E7%BE%A9/" rel="tag">課題定義</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">タグクラウド</h3>
+    <div class="widget tagcloud">
+      <a href="/fragments/tags/MySQL/" style="font-size: 10px;">MySQL</a> <a href="/fragments/tags/PHP/" style="font-size: 10px;">PHP</a> <a href="/fragments/tags/ToDo/" style="font-size: 10px;">ToDo</a> <a href="/fragments/tags/wsl2-%E7%92%B0%E5%A2%83%E6%A7%8B%E7%AF%89-Docker-GitHub/" style="font-size: 10px;">wsl2 環境構築 Docker GitHub</a> <a href="/fragments/tags/%E3%83%87%E3%83%BC%E3%82%BF%E3%83%99%E3%83%BC%E3%82%B9/" style="font-size: 10px;">データベース</a> <a href="/fragments/tags/%E6%A7%8B%E6%96%87/" style="font-size: 10px;">構文</a> <a href="/fragments/tags/%E7%8B%AC%E5%AD%A6%E3%82%A8%E3%83%B3%E3%82%B8%E3%83%8B%E3%82%A2/" style="font-size: 20px;">独学エンジニア</a> <a href="/fragments/tags/%E8%A6%81%E4%BB%B6%E5%AE%9A%E7%BE%A9/" style="font-size: 10px;">要件定義</a> <a href="/fragments/tags/%E8%AA%AD%E6%9B%B8%E3%83%AD%E3%82%B0%E3%82%B5%E3%83%BC%E3%83%93%E3%82%B9/" style="font-size: 20px;">読書ログサービス</a> <a href="/fragments/tags/%E8%AA%B2%E9%A1%8C%E5%AE%9A%E7%BE%A9/" style="font-size: 10px;">課題定義</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">アーカイブ</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/fragments/archives/2021/04/">4月 2021</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最近の投稿</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/fragments/lesson5-database/">lesson5 データベース(MySQL)</a>
+          </li>
+        
+          <li>
+            <a href="/fragments/lesson4-01/">lesson4 PHPでテキストアプリ開発</a>
+          </li>
+        
+          <li>
+            <a href="/fragments/wsl2/">Windows10での開発環境構築 備忘録</a>
+          </li>
+        
+          <li>
+            <a href="/fragments/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/fragments/lesson3-04/">Lesson3 タスクばらし</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2021 Takeshi Goto<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/fragments/" class="mobile-nav-link">Home</a>
+  
+    <a href="/fragments/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/fragments/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fragments/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/fragments/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
