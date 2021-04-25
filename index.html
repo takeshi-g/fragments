@@ -76,6 +76,131 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-wsl2" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/fragments/wsl2/" class="article-date">
+  <time class="dt-published" datetime="2021-04-18T07:35:53.000Z" itemprop="datePublished">2021-04-18</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/fragments/wsl2/">Windows10での開発環境構築 備忘録</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>WSL2 とはWindows上で動くLinux</p>
+<p>VirtualBoxなどより軽量、高速、何よりMicrosoft謹製。<br>インストールも簡単。Windows10 PRO ならコマンド一発で導入できる。</p>
+<h2 id="WSL２-導入-Windows10PROの場合"><a href="#WSL２-導入-Windows10PROの場合" class="headerlink" title="WSL２ 導入 Windows10PROの場合"></a>WSL２ 導入 Windows10PROの場合</h2><p>簡略化されたインストール “ (pro版でのみ可能らしい) “<br><br><code>wsl --install</code></p>
+<p>簡略化されたインストール コマンド <code>wsl --install</code> を使用するには、Windows Insider Program に参加し、Windows 10 のプレビュー ビルド(OS ビルド 20262 以降) をインストールする必要がありますが、<br><br>手動インストールの手順に従う必要がなくなります。<br>必要な操作は、管理者特権でコマンド ウィンドウ(Power Shell)を開いて<code>wsl --install</code> を実行するだけです。再起動後、WSL を使用する準備が整います。</p>
+<h2 id="windows-terminalのインストール"><a href="#windows-terminalのインストール" class="headerlink" title="windows terminalのインストール"></a>windows terminalのインストール</h2><p>windows storeよりインストール</p>
+<h2 id="VScode"><a href="#VScode" class="headerlink" title="VScode"></a>VScode</h2><p><a target="_blank" rel="noopener" href="https://azure.microsoft.com/ja-jp/products/visual-studio-code/">Visual Studio Code公式サイト</a><br><br>よりインストール</p>
+<h3 id="拡張機能"><a href="#拡張機能" class="headerlink" title="拡張機能"></a>拡張機能</h3><ul>
+<li><p>日本語化</p>
+<ul>
+<li><code>Japanese Language Pack for Visual Studio Code</code><br>Vusial Studio Code 内の表記を日本語化します　</li>
+</ul>
+</li>
+<li><p>整形</p>
+<ul>
+<li><code>Bracket Pair Colorizer 2</code><br>括弧の色付けをします。</li>
+<li><code>indent-rainbow</code><br>インデントの色付けをします。</li>
+<li><code>Code Spell Checker</code><br>コードのスペルチェックをします。</li>
+</ul>
+</li>
+<li><p>言語特有</p>
+<ul>
+<li><code>HTML CSS Support</code><br>HTMLドキュメントに対するCSSのサポートを行います。</li>
+<li><code>PHP Intelephense</code><br>PHPのコード補完をします。</li>
+<li><code>Docker</code><br>Dockerの操作をサポートします。</li>
+</ul>
+</li>
+<li><p>表示</p>
+<ul>
+<li><code>Material Icon Theme</code><br>アイコンをマテリアルアイコンに変更します。</li>
+<li><code>GitHub Theme</code><br>GitHub公式のテーマです。講義では GitHub Dark テーマを使用します。こちらはお好きなものを入れてください。<h3 id="基本設定"><a href="#基本設定" class="headerlink" title="基本設定"></a>基本設定</h3></li>
+</ul>
+</li>
+<li><p>フォント　14 16 など</p>
+</li>
+<li><p>見た目の折り返し　Editor Word Wrap on</p>
+</li>
+<li><p>最終行に空白行をプラス　Insert Final Newline ☑</p>
+</li>
+<li><p>行末スペース削除　Trim Final Newlines ☑ / Trim Trailing - Whitespace ☑</p>
+</li>
+<li><p>タブサイズ　</p>
+</li>
+<li><p>Tab Size 2</p>
+<h2 id="Gitのインストールと設定"><a href="#Gitのインストールと設定" class="headerlink" title="Gitのインストールと設定"></a>Gitのインストールと設定</h2><h3 id="インストール時のウィザードで設定"><a href="#インストール時のウィザードで設定" class="headerlink" title="インストール時のウィザードで設定"></a>インストール時のウィザードで設定</h3></li>
+<li><p><code>Use Visual Studio Code as Git&#39;s default editor</code><br><br>標準エディタをVScode1にしておく</p>
+</li>
+<li><p><code>Ajasuting your PATH environment </code><br><br>パスを設定</p>
+</li>
+<li><p><code>Git from the command line and also from 3rd-party software</code><br><br>サードパーティのソフトからも開けるように</p>
+</li>
+<li><p><code>Choose the default behavior of &#39;git pull&#39;</code></p>
+</li>
+<li><p><code>Rebase</code></p>
+<h3 id="コマンドラインで設定"><a href="#コマンドラインで設定" class="headerlink" title="コマンドラインで設定"></a>コマンドラインで設定</h3></li>
+<li><p>ユーザー名を設定<br><br><code>$ git config --global user.name &quot;github user name&quot;</code></p>
+</li>
+<li><p>メールアドレスを設定<br><br><code>$ git config --global user.email github@example.com</code></p>
+</li>
+<li><p>Git で使用するエディタに Visual Studio Code を指定<br><br><code>$ git config --global core.editor &#39;code --wait&#39;</code></p>
+</li>
+<li><p>マージする時にファストフォワードされないようにする<br><br><code>$ git config --global merge.ff false</code></p>
+</li>
+<li><p>プルの挙動をリベース型にする<br><br><code>$ git config --global pull.rebase merges</code></p>
+</li>
+<li><p>設定を確認する<br><br><code>$ git config --list</code></p>
+<h2 id="Docker"><a href="#Docker" class="headerlink" title="Docker"></a>Docker</h2></li>
+</ul>
+<p>Windows10PROダウンロード</p>
+<h2 id="独学エンジニアのDockerイメージからコンテナを起動する"><a href="#独学エンジニアのDockerイメージからコンテナを起動する" class="headerlink" title="独学エンジニアのDockerイメージからコンテナを起動する"></a>独学エンジニアのDockerイメージからコンテナを起動する</h2><ul>
+<li><p>GitHubよりclone<br><br><code>$ git clone https://github.com/dokugaku-engineer/server-side.git</code></p>
+</li>
+<li><p>part2をコピー<br><code>$ cp -r part2 -t ~/code</code></p>
+<h3 id="part2-ディレクトリにて作業する"><a href="#part2-ディレクトリにて作業する" class="headerlink" title="part2 ディレクトリにて作業する"></a>part2 ディレクトリにて作業する</h3><p>docker-compose.ymlのあるディレクトリでdockerコマンドを実行。</p>
+</li>
+<li><p>イメージをビルド<br><br><code>docker-compose build</code>　//Successfully built</p>
+</li>
+<li><p>コンテナの作成と起動<br><br><code>docker-compose up -d </code>実行　(-d はデタッチバックグラウンドで実行)</p>
+</li>
+<li><p>起動しているコンテナの確認<br><br><code>docker-compose ps</code></p>
+</li>
+<li><p>コンテナ内でPHPを実行<br><br><code>docker-compose exec app php -v</code>　 // phpのバージョンが表示される</p>
+</li>
+<li><p>コンテナの削除<br><br><code>docker-compose down</code> // コンテナの終了と削除</p>
+</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://takeshi-g.github.io/fragments/wsl2/" data-id="cknx8cx1y000ipaoz6hs38ou8" data-title="Windows10での開発環境構築 備忘録" class="article-share-link">共有</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/fragments/tags/wsl2-%E7%92%B0%E5%A2%83%E6%A7%8B%E7%AF%89-Docker-GitHub/" rel="tag">wsl2 環境構築 Docker GitHub</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-hello-world" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/fragments/hello-world/" class="article-date">
@@ -115,7 +240,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://takeshi-g.github.io/fragments/hello-world/" data-id="cknm1r8a20001rsozc2l41g78" data-title="Hello World" class="article-share-link">共有</a>
+      <a data-url="https://takeshi-g.github.io/fragments/hello-world/" data-id="cknx8cx1f0001paoze6sge5ua" data-title="Hello World" class="article-share-link">共有</a>
       
       
       
@@ -259,12 +384,12 @@
 <li>Heroku上でデータベースと連携する</li>
 </ul>
 <h2 id="Microsoft-ToDo-と連携"><a href="#Microsoft-ToDo-と連携" class="headerlink" title="Microsoft ToDo と連携"></a>Microsoft ToDo と連携</h2><p>以上のタスクばらしで作ったタスクを実行するだでの段階になると、そのタスクの管理方法が必要になる。<br>takeshi-gはMicrosoft謹製ToDoアプリ、「ToDo」にタスクを落とし込んで、タスクを一個づつ実行できるように環境整備してみた</p>
-<p>  <a href="Microsofthttps://todo.microsoft.com">To Do へようこそ</a></p>
+<p>  <a target="_blank" rel="noopener" href="https://todo.microsoft.com/">To Do へようこそ</a></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://takeshi-g.github.io/fragments/lesson3-04/" data-id="cknm1r8ae0006rsozdoim2mm9" data-title="Lesson3 タスクばらし" class="article-share-link">共有</a>
+      <a data-url="https://takeshi-g.github.io/fragments/lesson3-04/" data-id="cknx8cx1x000hpaozgi2o5uzf" data-title="Lesson3 タスクばらし" class="article-share-link">共有</a>
       
       
       
@@ -339,7 +464,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://takeshi-g.github.io/fragments/lesson3-03/" data-id="cknm1r8ac0005rsoz9b118w5a" data-title="Lesson3 プログラムの作り方2 要件定義" class="article-share-link">共有</a>
+      <a data-url="https://takeshi-g.github.io/fragments/lesson3-03/" data-id="cknx8cx1o0005paozakr2agm7" data-title="Lesson3 プログラムの作り方2 要件定義" class="article-share-link">共有</a>
       
       
       
@@ -386,7 +511,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://takeshi-g.github.io/fragments/lesson3-01/" data-id="cknm1r8a60002rsozams2azpk" data-title="lesson3 プログラムの作り方" class="article-share-link">共有</a>
+      <a data-url="https://takeshi-g.github.io/fragments/lesson3-01/" data-id="cknx8cx1i0002paoz6204hapy" data-title="lesson3 プログラムの作り方" class="article-share-link">共有</a>
       
       
       
@@ -474,7 +599,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://takeshi-g.github.io/fragments/lesson3-02/" data-id="cknm1r8a80003rsoz8s657p1y" data-title="Lesson3 プログラムの作り方1 課題定義" class="article-share-link">共有</a>
+      <a data-url="https://takeshi-g.github.io/fragments/lesson3-02/" data-id="cknx8cx1k0003paoz39766dgn" data-title="Lesson3 プログラムの作り方1 課題定義" class="article-share-link">共有</a>
       
       
       
@@ -501,7 +626,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">タグ</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/fragments/tags/ToDo/" rel="tag">ToDo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/fragments/tags/%E7%8B%AC%E5%AD%A6%E3%82%A8%E3%83%B3%E3%82%B8%E3%83%8B%E3%82%A2/" rel="tag">独学エンジニア</a></li><li class="tag-list-item"><a class="tag-list-link" href="/fragments/tags/%E8%A6%81%E4%BB%B6%E5%AE%9A%E7%BE%A9/" rel="tag">要件定義</a></li><li class="tag-list-item"><a class="tag-list-link" href="/fragments/tags/%E8%AA%AD%E6%9B%B8%E3%83%AD%E3%82%B0%E3%82%B5%E3%83%BC%E3%83%93%E3%82%B9/" rel="tag">読書ログサービス</a></li><li class="tag-list-item"><a class="tag-list-link" href="/fragments/tags/%E8%AA%B2%E9%A1%8C%E5%AE%9A%E7%BE%A9/" rel="tag">課題定義</a></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/fragments/tags/ToDo/" rel="tag">ToDo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/fragments/tags/wsl2-%E7%92%B0%E5%A2%83%E6%A7%8B%E7%AF%89-Docker-GitHub/" rel="tag">wsl2 環境構築 Docker GitHub</a></li><li class="tag-list-item"><a class="tag-list-link" href="/fragments/tags/%E7%8B%AC%E5%AD%A6%E3%82%A8%E3%83%B3%E3%82%B8%E3%83%8B%E3%82%A2/" rel="tag">独学エンジニア</a></li><li class="tag-list-item"><a class="tag-list-link" href="/fragments/tags/%E8%A6%81%E4%BB%B6%E5%AE%9A%E7%BE%A9/" rel="tag">要件定義</a></li><li class="tag-list-item"><a class="tag-list-link" href="/fragments/tags/%E8%AA%AD%E6%9B%B8%E3%83%AD%E3%82%B0%E3%82%B5%E3%83%BC%E3%83%93%E3%82%B9/" rel="tag">読書ログサービス</a></li><li class="tag-list-item"><a class="tag-list-link" href="/fragments/tags/%E8%AA%B2%E9%A1%8C%E5%AE%9A%E7%BE%A9/" rel="tag">課題定義</a></li></ul>
     </div>
   </div>
 
@@ -511,7 +636,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">タグクラウド</h3>
     <div class="widget tagcloud">
-      <a href="/fragments/tags/ToDo/" style="font-size: 10px;">ToDo</a> <a href="/fragments/tags/%E7%8B%AC%E5%AD%A6%E3%82%A8%E3%83%B3%E3%82%B8%E3%83%8B%E3%82%A2/" style="font-size: 15px;">独学エンジニア</a> <a href="/fragments/tags/%E8%A6%81%E4%BB%B6%E5%AE%9A%E7%BE%A9/" style="font-size: 10px;">要件定義</a> <a href="/fragments/tags/%E8%AA%AD%E6%9B%B8%E3%83%AD%E3%82%B0%E3%82%B5%E3%83%BC%E3%83%93%E3%82%B9/" style="font-size: 20px;">読書ログサービス</a> <a href="/fragments/tags/%E8%AA%B2%E9%A1%8C%E5%AE%9A%E7%BE%A9/" style="font-size: 10px;">課題定義</a>
+      <a href="/fragments/tags/ToDo/" style="font-size: 10px;">ToDo</a> <a href="/fragments/tags/wsl2-%E7%92%B0%E5%A2%83%E6%A7%8B%E7%AF%89-Docker-GitHub/" style="font-size: 10px;">wsl2 環境構築 Docker GitHub</a> <a href="/fragments/tags/%E7%8B%AC%E5%AD%A6%E3%82%A8%E3%83%B3%E3%82%B8%E3%83%8B%E3%82%A2/" style="font-size: 15px;">独学エンジニア</a> <a href="/fragments/tags/%E8%A6%81%E4%BB%B6%E5%AE%9A%E7%BE%A9/" style="font-size: 10px;">要件定義</a> <a href="/fragments/tags/%E8%AA%AD%E6%9B%B8%E3%83%AD%E3%82%B0%E3%82%B5%E3%83%BC%E3%83%93%E3%82%B9/" style="font-size: 20px;">読書ログサービス</a> <a href="/fragments/tags/%E8%AA%B2%E9%A1%8C%E5%AE%9A%E7%BE%A9/" style="font-size: 10px;">課題定義</a>
     </div>
   </div>
 
@@ -533,6 +658,10 @@
       <ul>
         
           <li>
+            <a href="/fragments/wsl2/">Windows10での開発環境構築 備忘録</a>
+          </li>
+        
+          <li>
             <a href="/fragments/hello-world/">Hello World</a>
           </li>
         
@@ -546,10 +675,6 @@
         
           <li>
             <a href="/fragments/lesson3-01/">lesson3 プログラムの作り方</a>
-          </li>
-        
-          <li>
-            <a href="/fragments/lesson3-02/">Lesson3 プログラムの作り方1 課題定義</a>
           </li>
         
       </ul>
