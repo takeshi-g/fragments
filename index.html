@@ -76,6 +76,351 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-lesson6-06" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/fragments/lesson6-06/" class="article-date">
+  <time class="dt-published" datetime="2021-05-14T05:53:26.000Z" itemprop="datePublished">2021-05-14</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/fragments/lesson6-06/">CSSでスタイルを整える</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>Bootstrapで時短しつつスタイルを整える。</p>
+<h2 id="Bootstrapのインストール"><a href="#Bootstrapのインストール" class="headerlink" title="Bootstrapのインストール"></a>Bootstrapのインストール</h2><p>Composerを使ってBootstrap の Sass と JavaScript をインストール<br></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ composer require twbs&#x2F;bootstrap:4.5.0</span><br></pre></td></tr></table></figure>
+<p><a target="_blank" rel="noopener" href="https://getbootstrap.jp/docs/4.5/getting-started/download/">公式Bootstrapダウンロード</a><br><br><br><br><br>これをDockerのコンテナで実行。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker-compose exec app composer require twbs&#x2F;bootstrap:4.5.0</span><br></pre></td></tr></table></figure>
+
+<h3 id="ディレクトリ構成"><a href="#ディレクトリ構成" class="headerlink" title="ディレクトリ構成"></a>ディレクトリ構成</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">bootstrap&#x2F;</span><br><span class="line">├── dist&#x2F;</span><br><span class="line">│   ├── css&#x2F;</span><br><span class="line">│   └── js&#x2F;</span><br><span class="line">├── docs&#x2F;</span><br><span class="line">│   └── examples&#x2F;</span><br><span class="line">├── js&#x2F;</span><br><span class="line">└── scss&#x2F;</span><br></pre></td></tr></table></figure>
+<p>cssディレクトリ以下にある以下のファイルでフルのBootstrapが使える。</p>
+<ul>
+<li>bootstrap.css</li>
+<li>bootstrap.min.css</li>
+</ul>
+<h3 id="HTMLで読み込み"><a href="#HTMLで読み込み" class="headerlink" title="HTMLで読み込み"></a>HTMLで読み込み</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;link rel&#x3D;&quot;stylesheet&quot; href&#x3D;&quot;..&#x2F;vendor&#x2F;twbs&#x2F;bootstrap&#x2F;dist&#x2F;css&#x2F;bootstrap.css&quot;&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Bootstrapのカスタマイズ"><a href="#Bootstrapのカスタマイズ" class="headerlink" title="Bootstrapのカスタマイズ"></a>Bootstrapのカスタマイズ</h2><h3 id="Sassのインストール"><a href="#Sassのインストール" class="headerlink" title="Sassのインストール"></a>Sassのインストール</h3><p>Scssライブラリをインストール<br><br>scssphp/scssphp<br><a target="_blank" rel="noopener" href="https://github.com/scssphp/scssphp">https://github.com/scssphp/scssphp</a><br>インストールのコマンド</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-compose exec app composer require scssphp&#x2F;scssphp</span><br></pre></td></tr></table></figure>
+<p>vendorディレクトリ以下にscssphp/scssphpディレクトリができる</p>
+<h3 id="Bootstrapのカスタマイズ-1"><a href="#Bootstrapのカスタマイズ-1" class="headerlink" title="Bootstrapのカスタマイズ"></a>Bootstrapのカスタマイズ</h3><p>ディレクトリ構成</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">stylesheets&#x2F;</span><br><span class="line"> ├── css&#x2F;</span><br><span class="line"> |    ├─ app.css</span><br><span class="line"> └── scss&#x2F;</span><br><span class="line">      └─ app.scss</span><br></pre></td></tr></table></figure>
+<p>app.scssを編集し、app.cssにコンパイルしてhtmlファイルから読み込む<br><br><br><br><code>app.scss</code></p>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@import</span> <span class="string">&#x27;vendor/twbs/bootstrap/scss/bootstrap&#x27;</span></span><br></pre></td></tr></table></figure>
+<p>Dockerのappコンテナ内でbashコマンドを使う</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-compose exec app &#x2F;bin&#x2F;bash</span><br></pre></td></tr></table></figure>
+<p>scssphpコマンドを実行、コンパイルした結果をcssファイルに書き出す</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vendor&#x2F;scssphp&#x2F;scssphp&#x2F;bin&#x2F;pscss &lt; companies&#x2F;stylesheets&#x2F;scss&#x2F;app.scss &gt; companies&#x2F;stylesheets&#x2F;css&#x2F;app.css</span><br></pre></td></tr></table></figure>
+<p>カスタマイズ法</p>
+<ul>
+<li>変数の変更<br>@import の前で行う</li>
+<li>要素の変更<br>@importの後で行う</li>
+</ul>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// @importの前で変数の定義</span></span><br><span class="line">  <span class="comment">// line-height</span></span><br><span class="line">  <span class="variable">$headings-line-height</span>: <span class="number">1.5</span>;</span><br><span class="line">  <span class="variable">$line-height-base</span>: <span class="number">1.65</span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Colors</span></span><br><span class="line">  <span class="variable">$gray-dark</span>: <span class="number">#546E7A</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">@import</span> <span class="string">&#x27;vendor/twbs/bootstrap/scss/bootstrap&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// @importのあとでスタイルの上書き</span></span><br><span class="line"><span class="selector-tag">body</span> &#123;</span><br><span class="line">  <span class="attribute">letter-spacing</span>: .<span class="number">1em</span>;</span><br><span class="line">  <span class="attribute">text-align</span>: justify;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="classを付与してスタイルしていく"><a href="#classを付与してスタイルしていく" class="headerlink" title="classを付与してスタイルしていく"></a>classを付与してスタイルしていく</h2><h3 id="ページ全体を中央ぞろえしたい"><a href="#ページ全体を中央ぞろえしたい" class="headerlink" title="ページ全体を中央ぞろえしたい"></a>ページ全体を中央ぞろえしたい</h3><p>全体をdivタグでくくってcontainerクラスを付ける<br><br>body以下をマウスで選択<br><br><code>ctrl + shift + p</code><br><br>wrapで検索、 __EmmetのWrap with Abbreviation__を選択 -&gt; enter -&gt; divを入力すると、選択範囲をくくったdivタグができる</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;container&quot;</span>&gt;</span> // ページ全体を中央ぞろえ</span><br><span class="line">    <span class="tag">&lt;<span class="name">h1</span> <span class="attr">class</span>=<span class="string">&quot;h2 text-dark mt-4 mb-4&quot;</span>&gt;</span>会社情報の登録<span class="tag">&lt;/<span class="name">h1</span>&gt;</span>　// 見出しの大きさ h2 / 字の色 text-dark / mt-4 マージントップ / mb-4 マージンボトム</span><br><span class="line">    <span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">&quot;create.php&quot;</span> <span class="attr">method</span>=<span class="string">&quot;POST&quot;</span>&gt;</span></span><br><span class="line">    &lt;?php if (count($errors)) : ?&gt;</span><br><span class="line">        <span class="tag">&lt;<span class="name">ul</span> <span class="attr">class</span>=<span class="string">&quot;text-danger&quot;</span>&gt;</span> // エラー文字を赤</span><br><span class="line">            &lt;?php foreach ($errors as $error) : ?&gt;</span><br><span class="line">            <span class="tag">&lt;<span class="name">li</span>&gt;</span>&lt;?php echo $error; ?&gt;<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">            &lt;?php endforeach; ?&gt;</span><br><span class="line">        <span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br><span class="line">    &lt;?php endif; ?&gt;</span><br><span class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;form-group&quot;</span>&gt;</span>　// form はグループごとにform-group</span><br><span class="line">            <span class="tag">&lt;<span class="name">label</span> <span class="attr">for</span>=<span class="string">&quot;name&quot;</span>&gt;</span>会社名<span class="tag">&lt;/<span class="name">label</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">input</span> <span class="attr">class</span>=<span class="string">&quot;form-control&quot;</span> <span class="attr">type</span>=<span class="string">&quot;text&quot;</span> <span class="attr">name</span>=<span class="string">&quot;name&quot;</span> <span class="attr">id</span>=<span class="string">&quot;name&quot;</span> <span class="attr">value</span>=<span class="string">&quot;&lt;?php echo $company[&#x27;name&#x27;] ?&gt;&quot;</span>&gt;</span> // inputにform-control</span><br><span class="line">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;form-group&quot;</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">label</span> <span class="attr">for</span>=<span class="string">&quot;establishment_date&quot;</span>&gt;</span>設立年月日<span class="tag">&lt;/<span class="name">label</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">input</span> <span class="attr">class</span>=<span class="string">&quot;form-control&quot;</span> <span class="attr">type</span>=<span class="string">&quot;date&quot;</span> <span class="attr">name</span>=<span class="string">&quot;establishment_date&quot;</span> <span class="attr">id</span>=<span class="string">&quot;establishment_date&quot;</span> <span class="attr">value</span>=<span class="string">&quot;&lt;?php echo $company[&#x27;establishment_date&#x27;] ?&gt;&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">button</span> <span class="attr">type</span>=<span class="string">&quot;submit&quot;</span> <span class="attr">class</span>=<span class="string">&quot;btn btn-primary&quot;</span>&gt;</span>登録する<span class="tag">&lt;/<span class="name">button</span>&gt;</span> // ボタンにスタイルをあてる</span><br><span class="line">    <span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="レイアウトを共通化"><a href="#レイアウトを共通化" class="headerlink" title="レイアウトを共通化"></a>レイアウトを共通化</h2><p>同じ部分は共通化しておく(以後の修正が楽・修正漏れがない)<br><br>共通部分のスタイルを記述したファイルを作る<br><br>個別のところに変数に格納したコンテンツを読み込む</p>
+<h3 id="ディレクトリ構成-1"><a href="#ディレクトリ構成-1" class="headerlink" title="ディレクトリ構成"></a>ディレクトリ構成</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">companies&#x2F;</span><br><span class="line">├─views&#x2F;</span><br><span class="line">|    ├─layout.php</span><br><span class="line">|    └─new.php</span><br><span class="line">└─new.php</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>views/layout.php</code> 共通部分のスタイルを記述したファイルを作る<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html lang=<span class="string">&quot;ja&quot;</span>&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">  &lt;meta charset=<span class="string">&quot;UTF-8&quot;</span>&gt;</span><br><span class="line">  &lt;meta name=<span class="string">&quot;viewport&quot;</span> content=<span class="string">&quot;width=device-width, initial-scale=1.0&quot;</span>&gt;</span><br><span class="line">  &lt;link rel=<span class="string">&quot;stylesheet&quot;</span> href=<span class="string">&quot;../stylesheets/css/app.css&quot;</span>&gt;</span><br><span class="line">  &lt;title&gt;<span class="meta">&lt;?php</span> <span class="keyword">echo</span> <span class="variable">$title</span>; <span class="meta">?&gt;</span>&lt;/title&gt; <span class="comment">// タイトルを変数から読み込む</span></span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">    &lt;div class=&quot;container&quot;&gt;</span><br><span class="line">        <span class="meta">&lt;?php</span> <span class="keyword">include</span> <span class="variable">$content</span>; <span class="meta">?&gt;</span> 　<span class="comment">// ページの中身をviews以下のファイルから読み込む</span></span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure></li>
+<li><code>new.php</code> アクセスされるファイル<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="variable">$company</span> = [</span><br><span class="line">    <span class="string">&#x27;name&#x27;</span> =&gt; <span class="string">&#x27;&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;establishment_date&#x27;</span> =&gt; <span class="string">&#x27;&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;founder&#x27;</span> =&gt; <span class="string">&#x27;&#x27;</span>,</span><br><span class="line">];</span><br><span class="line"><span class="variable">$errors</span> = [];</span><br><span class="line"></span><br><span class="line"><span class="variable">$title</span> = <span class="string">&#x27;会社情報の登録&#x27;</span>;  <span class="comment">// タイトルに変数を格納</span></span><br><span class="line"><span class="variable">$content</span> = <span class="keyword">__DIR__</span> . <span class="string">&#x27;/views/new.php&#x27;</span>;  <span class="comment">// コンテンツ内容をviews以下のファイルから変数に格納</span></span><br><span class="line"><span class="keyword">include</span> <span class="keyword">__DIR__</span> . <span class="string">&#x27;/views/layout.php&#x27;</span>; <span class="comment">// レイアウトのファイルを読み込み</span></span><br></pre></td></tr></table></figure>
+<code>/views/new.php</code> コンテンツファイル<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">&lt;h1 class=&quot;h2 text-dark mt-4 mb-4&quot;&gt;会社情報の登録&lt;/h1&gt;</span><br><span class="line">&lt;form action=<span class="string">&quot;create.php&quot;</span> method=<span class="string">&quot;POST&quot;</span>&gt;</span><br><span class="line">    <span class="meta">&lt;?php</span> <span class="keyword">if</span> (count(<span class="variable">$errors</span>)) : <span class="meta">?&gt;</span></span><br><span class="line">        &lt;ul class=&quot;text-danger&quot;&gt;</span><br><span class="line">            <span class="meta">&lt;?php</span> <span class="keyword">foreach</span> (<span class="variable">$errors</span> <span class="keyword">as</span> <span class="variable">$error</span>) : <span class="meta">?&gt;</span></span><br><span class="line">            &lt;li&gt;<span class="meta">&lt;?php</span> <span class="keyword">echo</span> <span class="variable">$error</span>; <span class="meta">?&gt;</span>&lt;/li&gt;</span><br><span class="line">            <span class="meta">&lt;?php</span> <span class="keyword">endforeach</span>; <span class="meta">?&gt;</span></span><br><span class="line">        &lt;/ul&gt;</span><br><span class="line">    <span class="meta">&lt;?php</span> <span class="keyword">endif</span>; <span class="meta">?&gt;</span></span><br><span class="line">    &lt;div class=&quot;form-group&quot;&gt;</span><br><span class="line">        &lt;label <span class="keyword">for</span>=<span class="string">&quot;name&quot;</span>&gt;会社名&lt;/label&gt;</span><br><span class="line">        &lt;input class=&quot;form-control&quot; type=&quot;text&quot; name=&quot;name&quot; id=&quot;name&quot; value=&quot;&lt;?php echo $company[&#x27;name&#x27;] ?&gt;&quot;&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">    &lt;div class=&quot;form-group&quot;&gt;</span><br><span class="line">        &lt;label <span class="keyword">for</span>=<span class="string">&quot;establishment_date&quot;</span>&gt;設立年月日&lt;/label&gt;</span><br><span class="line">        &lt;input class=&quot;form-control&quot; type=&quot;date&quot; name=&quot;establishment_date&quot; id=&quot;establishment_date&quot; value=&quot;&lt;?php echo $company[&#x27;establishment_date&#x27;] ?&gt;&quot;&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">    &lt;div class=&quot;form-group&quot;&gt;</span><br><span class="line">        &lt;label <span class="keyword">for</span>=<span class="string">&quot;founder&quot;</span>&gt;代表者&lt;/label&gt;</span><br><span class="line">        &lt;input class=&quot;form-control&quot; type=&quot;text&quot; name=&quot;founder&quot; id=&quot;founder&quot; value=&quot;&lt;?php echo $company[&#x27;founder&#x27;]?&gt;&quot;&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">    &lt;button type=&quot;submit&quot; class=&quot;btn btn-primary&quot;&gt;登録する&lt;/button&gt;</span><br><span class="line">&lt;/form&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="一覧ページ"><a href="#一覧ページ" class="headerlink" title="一覧ページ"></a>一覧ページ</h2>データベースからデータを取得して表示する</li>
+</ul>
+<ol>
+<li>データベースからデータを取得 <strong>配列で取得</strong></li>
+<li>HTMLでデータを表示 <strong>ループで一つずつ表示</strong></li>
+<li>データがないときの処理<br><br>データがないときなどイレギュラーパターンを想定しての処理をかけることがうろダクションコードへの第一歩<h3 id="MySQLで特定テーブルの全データを削除する"><a href="#MySQLで特定テーブルの全データを削除する" class="headerlink" title="MySQLで特定テーブルの全データを削除する"></a>MySQLで特定テーブルの全データを削除する</h3><h4 id="TRUNCATE-TABLE"><a href="#TRUNCATE-TABLE" class="headerlink" title="TRUNCATE TABLE"></a>TRUNCATE TABLE</h4></li>
+</ol>
+<ul>
+<li><p>指定したテーブルの全データを削除する<br><br>tbl_name: テーブル名<br><br><code>TRUNCATE[TABLE]tbl_name</code><br></p>
+</li>
+<li><p>compnaiesテーブルの全データ削除</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">TRUNCATE TABLE companies;</span><br></pre></td></tr></table></figure>
+<h2 id="XSS対策"><a href="#XSS対策" class="headerlink" title="XSS対策"></a>XSS対策</h2><p>有名なセキュリティの脆弱性XSS(クロスサイトスプリクティング)対策をする</p>
+<h3 id="特殊文字をエスケープさせる"><a href="#特殊文字をエスケープさせる" class="headerlink" title="特殊文字をエスケープさせる"></a>特殊文字をエスケープさせる</h3></li>
+<li><p>&lt;<br><br><strong><code>&amp;lt;</code></strong></p>
+</li>
+<li><p>&gt;<br><br><strong><code>&amp;gt;</code></strong></p>
+<h2 id="PHPでXSS対策"><a href="#PHPでXSS対策" class="headerlink" title="PHPでXSS対策"></a>PHPでXSS対策</h2><p><code>htmlspecialchars()</code>を使ってHTML特殊記号をエスケープする</p>
+</li>
+<li><p>HTMLの特殊文字を文字参照に置き換える</p>
+<ul>
+<li>$string: 変換する文字列</li>
+<li>$flags: 処理の仕方を指定するフラグ</li>
+<li>$encoding: 文字を変換するときに使用するエンコーディング<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">htmlspecialchars($string, $flags, $encoding)</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://takeshi-g.github.io/fragments/lesson6-06/" data-id="ckonwqj29000kvq9ce8e49727" data-title="CSSでスタイルを整える" class="article-share-link">共有</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-lesson6-05" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/fragments/lesson6-05/" class="article-date">
+  <time class="dt-published" datetime="2021-05-14T05:52:17.000Z" itemprop="datePublished">2021-05-14</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/fragments/lesson6-05/">データを登録する</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>HTMLのフォームに入力されたデータをPHPで処理してデータベースに登録する</p>
+<ul>
+<li>登録</li>
+<li>リダイレクト</li>
+<li>バリデーション<h2 id="PHPの定義済み変数"><a href="#PHPの定義済み変数" class="headerlink" title="PHPの定義済み変数"></a>PHPの定義済み変数</h2>PHPで定義されている変数。外部から情報などが取得できる<h3 id="ENV"><a href="#ENV" class="headerlink" title="$_ENV"></a><code>$_ENV</code></h3></li>
+<li>環境変数 連想配列として受け取る<h3 id="POST"><a href="#POST" class="headerlink" title="$_POST"></a><code>$_POST</code></h3></li>
+<li>POSTされた情報 連想配列として受け取る<h3 id="GET"><a href="#GET" class="headerlink" title="$_GET"></a><code>$_GET</code></h3></li>
+<li>URLパラメータの情報 連想配列として受け取る<h3 id="SERVER"><a href="#SERVER" class="headerlink" title="$_SERVER"></a><code>$_SERVER</code></h3></li>
+<li>サーバや実行時の環境情報 連想配列として受け取る<br><br>REQUEST_METHOD: ページにアクセスする際に使用されたメソッド名<br><br><code>&#39;GET&#39;</code>,<code>&#39;POST&#39;</code>など<h2 id="マジック定数"><a href="#マジック定数" class="headerlink" title="マジック定数"></a>マジック定数</h2>使われる場所によって値が変化する定数がマジック定数<h3 id="DIR"><a href="#DIR" class="headerlink" title="__DIR__"></a><code>__DIR__</code></h3>そのファイルの存在するディレクトリ名<h3 id="FILE"><a href="#FILE" class="headerlink" title="__FILE__"></a><code>__FILE__</code></h3>そのファイルの古パスとファイル名<h3 id="LINE"><a href="#LINE" class="headerlink" title="__LINE__"></a><code>__LINE__</code></h3>そのファイル上の現在の行番号<h2 id="外部ファイルの読み込み"><a href="#外部ファイルの読み込み" class="headerlink" title="外部ファイルの読み込み"></a>外部ファイルの読み込み</h2>共通の処理は別ファイルにまとめて、そのファイルを読み込んで使おう<h3 id="require"><a href="#require" class="headerlink" title="require"></a><code>require</code></h3>指定したファイルを読み込む。読み込みが失敗すると処理がそこで中断される<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">require &#39;somefile.php&#39;;&#39;</span><br></pre></td></tr></table></figure>
+<h3 id="require-once"><a href="#require-once" class="headerlink" title="require_once"></a><code>require_once</code></h3><code>reuire</code>とほぼ同じ。一度しかファイルを読み込まない<br><br>悩んだら<code>require_once</code>を使うことを推奨<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">require_once &#39;somefile.php&#39;;&#39;</span><br></pre></td></tr></table></figure>
+<h2 id="共通の関数などをライブラリのファイルにまとめる"><a href="#共通の関数などをライブラリのファイルにまとめる" class="headerlink" title="共通の関数などをライブラリのファイルにまとめる"></a>共通の関数などをライブラリのファイルにまとめる</h2>複数のファイルで共通する関数などをまとめたライブラリを作り、実行するファイルから読み込んで使用する</li>
+</ul>
+<ol>
+<li>libフォルダ(ライブラリ置き場)を実行ファイルの階層に作る</li>
+<li>libフォルダに関数をまとめるファイルを作る(例<code>mysqli.php</code>)</li>
+<li>実行するファイルから読み込む<h3 id="ライブラリのファイル"><a href="#ライブラリのファイル" class="headerlink" title="ライブラリのファイル"></a>ライブラリのファイル</h3>libフォルダ以下に<code>mysqli.php</code>ファイルを作る<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">require</span> <span class="keyword">__DIR__</span> . <span class="string">&#x27;/../../vendor/autoload.php&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">dbConnect</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="variable">$dotenv</span> = Dotenv\Dotenv::createImmutable(<span class="keyword">__DIR__</span> . <span class="string">&#x27;/../..&#x27;</span>);</span><br><span class="line">    <span class="variable">$dotenv</span>-&gt;load();</span><br><span class="line"></span><br><span class="line">    <span class="variable">$dbHost</span> = <span class="variable">$_ENV</span>[<span class="string">&#x27;DB_HOST&#x27;</span>];</span><br><span class="line">    <span class="variable">$dbUsername</span> = <span class="variable">$_ENV</span>[<span class="string">&#x27;DB_USERNAME&#x27;</span>];</span><br><span class="line">    <span class="variable">$dbPassword</span> = <span class="variable">$_ENV</span>[<span class="string">&#x27;DB_PASSWORD&#x27;</span>];</span><br><span class="line">    <span class="variable">$dbDatabase</span> = <span class="variable">$_ENV</span>[<span class="string">&#x27;DB_DATABASE&#x27;</span>];</span><br><span class="line"></span><br><span class="line">    <span class="variable">$link</span> = mysqli_connect(<span class="variable">$dbHost</span>, <span class="variable">$dbUsername</span>, <span class="variable">$dbPassword</span>, <span class="variable">$dbDatabase</span>);</span><br><span class="line">    <span class="keyword">if</span> (!<span class="variable">$link</span>) &#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&#x27;Error: データベーに接続できません&#x27;</span> . PHP_EOL;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&#x27;Debugging error: &#x27;</span> . mysqli_connect_error() . PHP_EOL;</span><br><span class="line">        <span class="keyword">exit</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="variable">$link</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="実行ファイルでの読み込み"><a href="#実行ファイルでの読み込み" class="headerlink" title="実行ファイルでの読み込み"></a>実行ファイルでの読み込み</h3>実行ファイルでの読み込み<br><code>create.php</code><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">require_once</span> <span class="keyword">__DIR__</span> . <span class="string">&#x27;/lib/mysqli.php&#x27;</span>; <span class="comment">// ライブラリのファイルを読み込み（関数が使えるようになる）</span></span><br><span class="line">...</span><br><span class="line"><span class="comment">// データベースに接続する</span></span><br><span class="line"><span class="variable">$link</span> = dbConnect();</span><br></pre></td></tr></table></figure>
+<h2 id="登録する情報をPHPへ送る"><a href="#登録する情報をPHPへ送る" class="headerlink" title="登録する情報をPHPへ送る"></a>登録する情報をPHPへ送る</h2>情報の送り先ファイルをaction属性の値に、データの登録なのでメソッドはPOST<bs><br>送り先のphpファイルに設定してフォームを送信すると、<br><br><code>$_POST</code>の連想配列として情報が渡せる<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;form action&#x3D;&quot;create.php&quot; method&#x3D;&quot;POST&quot;&gt;</span><br><span class="line">...</span><br><span class="line">...</span><br><span class="line">  &lt;button type&#x3D;&quot;submit&quot;&gt;登録する&lt;&#x2F;button&gt;</span><br><span class="line">&lt;&#x2F;form&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="PHPで受け取った情報をデータベースに登録する"><a href="#PHPで受け取った情報をデータベースに登録する" class="headerlink" title="PHPで受け取った情報をデータベースに登録する"></a>PHPで受け取った情報をデータベースに登録する</h2></li>
+<li>HTTPメソッドがPOSTだったら</li>
+<li>POSTされた会社情報を変数に格納する</li>
+<li>バリデーションする</li>
+<li>データベースに接続する</li>
+<li>データベースにデータを登録する</li>
+<li>データベースとの接続を切断する</li>
+</ol>
+<h3 id="HTTPメソッドがPOSTだったら"><a href="#HTTPメソッドがPOSTだったら" class="headerlink" title="HTTPメソッドがPOSTだったら"></a>HTTPメソッドがPOSTだったら</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (<span class="variable">$_SERVER</span>[<span class="string">&#x27;REQUEST_METHOD&#x27;</span>] === <span class="string">&#x27;POST&#x27;</span>)&#123;</span><br><span class="line"><span class="comment">// メソッドがPOSTのときだけPOSTされた会社情報を変数に格納する</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="POSTされた会社情報を変数に格納する"><a href="#POSTされた会社情報を変数に格納する" class="headerlink" title="POSTされた会社情報を変数に格納する"></a>POSTされた会社情報を変数に格納する</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$company</span> = [</span><br><span class="line">    <span class="string">&#x27;name&#x27;</span> =&gt; <span class="variable">$_POST</span>[<span class="string">&#x27;name&#x27;</span>],</span><br><span class="line">    <span class="string">&#x27;establishment_date&#x27;</span> =&gt; <span class="variable">$_POST</span>[<span class="string">&#x27;establishment_date&#x27;</span>],</span><br><span class="line">    <span class="string">&#x27;founder&#x27;</span> =&gt; <span class="variable">$_POST</span>[<span class="string">&#x27;founder&#x27;</span>]</span><br><span class="line">];</span><br></pre></td></tr></table></figure>
+<h3 id="バリデーションする"><a href="#バリデーションする" class="headerlink" title="バリデーションする"></a>バリデーションする</h3><p>あとで</p>
+<h3 id="データベースに接続する"><a href="#データベースに接続する" class="headerlink" title="データベースに接続する"></a>データベースに接続する</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$link</span> = dbConnect();</span><br></pre></td></tr></table></figure>
+<h3 id="データベースにデータを登録する"><a href="#データベースにデータを登録する" class="headerlink" title="データベースにデータを登録する"></a>データベースにデータを登録する</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">createCompany(<span class="variable">$link</span>, <span class="variable">$company</span>);</span><br></pre></td></tr></table></figure>
+<h3 id="データベースとの接続を切断する"><a href="#データベースとの接続を切断する" class="headerlink" title="データベースとの接続を切断する"></a>データベースとの接続を切断する</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysqli_close(<span class="variable">$link</span>);</span><br></pre></td></tr></table></figure>
+<h2 id="リダイレクト"><a href="#リダイレクト" class="headerlink" title="リダイレクト"></a>リダイレクト</h2><p>データを保存した後、登録情報が表示されるページに遷移させる<br><br>遷移先のページを作る<br><code>index.php</code><br><br>表示する内容をHTMLで記述しておく<br><br>データ登録後にページを遷移させる</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">header(<span class="string">&quot;Location: index.php&quot;</span>);</span><br></pre></td></tr></table></figure>
+<h2 id="アクセスログとエラーログを出力"><a href="#アクセスログとエラーログを出力" class="headerlink" title="アクセスログとエラーログを出力"></a>アクセスログとエラーログを出力</h2><p>ログとはプログラムの実行状況・データ送受信などを記録しておくもの</p>
+<h3 id="PHP・Apacheのログ"><a href="#PHP・Apacheのログ" class="headerlink" title="PHP・Apacheのログ"></a>PHP・Apacheのログ</h3><p>ログには主にアクセスログとエラーログがある。<br><br>PHPはエラーログ、Apacheはアクセスログとエラーログを主に出力</p>
+<h3 id="ログを確認"><a href="#ログを確認" class="headerlink" title="ログを確認"></a>ログを確認</h3><p>Dockerコンテナ内のログを確認するコマンド<code>docker logs</code></p>
+<ul>
+<li><code>docker ps</code> コンテナ名を確認</li>
+<li><code>docker logs -f &lt;コンテナ名&gt;</code> - ログを確認するとき(-f: follow ログの出力を表示し続ける)</li>
+<li><code>docker logs &lt;コンテナ名&gt; -f 2&gt;/dev/null</code>　- アクセスログを確認(エラーログ捨てる)</li>
+<li><code>docker logs &lt;コンテナ名&gt; -f 1&gt;/dev/null</code>　- エラーログを確認(アクセスログを捨てる)<h3 id="ログにエラーを記録"><a href="#ログにエラーを記録" class="headerlink" title="ログにエラーを記録"></a>ログにエラーを記録</h3>mysqli関数にエラーがあったときにログを出力<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$result</span> = mysqli_query(<span class="variable">$link</span>, <span class="variable">$sql</span>);</span><br><span class="line"><span class="keyword">if</span> (!<span class="variable">$result</span>) &#123;</span><br><span class="line">    error_log(<span class="string">&#x27;Error: Fail to create company&#x27;</span>);</span><br><span class="line">    error_log(<span class="string">&#x27;Debugging Error: &#x27;</span> . mysqli_error(<span class="variable">$link</span>));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="バリデーション処理"><a href="#バリデーション処理" class="headerlink" title="バリデーション処理"></a>バリデーション処理</h2>バリデーション処理に使う関数</li>
+<li><code>strlen()</code><br><br>文字のあるなしを判定。</li>
+<li><code>explode(区切り文字列, 入力文字列)</code><br><br>文字列を区切って配列に格納</li>
+<li><code>count()</code><br><br>配列の要素を数えて数を返す</li>
+<li><code>checkdate(月, 日, 年)</code><br><br>暦が正しいかを判定<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">validate</span>(<span class="params"><span class="variable">$company</span></span>) </span>&#123;</span><br><span class="line"></span><br><span class="line"><span class="comment">// エラーを`$errors`という配列を準備して配列に格納する</span></span><br><span class="line">    <span class="variable">$errors</span> = [];</span><br><span class="line"></span><br><span class="line"><span class="comment">// 会社名</span></span><br><span class="line"><span class="keyword">if</span> (!strlen(<span class="variable">$company</span>[<span class="string">&#x27;name&#x27;</span>])) &#123; <span class="comment">// 入力がない場合</span></span><br><span class="line">    <span class="variable">$errors</span>[<span class="string">&#x27;name&#x27;</span>] = <span class="string">&#x27;会社名を入力してください&#x27;</span>;</span><br><span class="line">&#125; <span class="keyword">elseif</span> (strlen(<span class="variable">$company</span>[<span class="string">&#x27;name&#x27;</span>]) &gt; <span class="number">255</span>) &#123; <span class="comment">// 文字数が多い場合</span></span><br><span class="line">    <span class="variable">$errors</span>[<span class="string">&#x27;name&#x27;</span>] = <span class="string">&#x27;会社名は255文字以内で入力してください&#x27;</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 設立日</span></span><br><span class="line"><span class="variable">$dates</span> = explode(<span class="string">&#x27;-&#x27;</span>, <span class="variable">$company</span>[<span class="string">&#x27;establishment_date&#x27;</span>]);　<span class="comment">// 日付の形式 yyyy-mm-dd を&quot;-&quot;で分割している。</span></span><br><span class="line"><span class="keyword">if</span> (!strlen(<span class="variable">$company</span>[<span class="string">&#x27;establishment_date&#x27;</span>])) &#123;　<span class="comment">// 入力がない場合</span></span><br><span class="line">    <span class="variable">$errors</span>[<span class="string">&#x27;establishment_date&#x27;</span>] = <span class="string">&#x27;設立日を入力してください&#x27;</span>;</span><br><span class="line">&#125; <span class="keyword">elseif</span> (count(<span class="variable">$dates</span>) !== <span class="number">3</span>) &#123;    <span class="comment">// datesの配列が3つかどうかで形式を判定</span></span><br><span class="line">    <span class="variable">$errors</span>[<span class="string">&#x27;establishment_date&#x27;</span>] = <span class="string">&#x27;設立日を正しい形式で入力してください&#x27;</span>;</span><br><span class="line">&#125; <span class="keyword">elseif</span> (!checkdate(<span class="variable">$dates</span>[<span class="string">&#x27;1&#x27;</span>], <span class="variable">$dates</span>[<span class="string">&#x27;2&#x27;</span>], <span class="variable">$dates</span>[<span class="string">&#x27;0&#x27;</span>])) &#123; <span class="comment">// 存在する日付かどうかの判定</span></span><br><span class="line">    <span class="variable">$errors</span>[<span class="string">&#x27;establishment_date&#x27;</span>] = <span class="string">&#x27;設立日を正しい日付で入力して下さい&#x27;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="HTMLとPHPファイルを分割"><a href="#HTMLとPHPファイルを分割" class="headerlink" title="HTMLとPHPファイルを分割"></a>HTMLとPHPファイルを分割</h2>HTMLファイルを分割したら<code>include</code>で読み込もう</li>
+<li><code>include</code><br><br>指定したファイルを読み込<br><ol>
+<li>読み込みが失敗しても処理が中断されない</li>
+<li>HTMLやテキストなどを読み込むときに使う<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">include</span> <span class="string">&#x27;somefile.php&#x27;</span>;</span><br></pre></td></tr></table></figure></li>
+</ol>
+</li>
+<li><code>require_once</code> <br><br>指定したファイルを読み込む<br><ol>
+<li>読み込みが失敗したら処理が中断される</li>
+<li>関数など重要な処理を読み込むときに使う<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">require_once</span> <span class="string">&#x27;somefile.php&#x27;</span>;</span><br></pre></td></tr></table></figure>
+<h3 id="HTMLに未定義の変数があるとき"><a href="#HTMLに未定義の変数があるとき" class="headerlink" title="HTMLに未定義の変数があるとき"></a>HTMLに未定義の変数があるとき</h3>空の変数を用意しておき、エラーを回避する。<br></li>
+</ol>
+</li>
+<li>例 : $errorsという変数がHTMLコード内にある時<br><br>HTMLの読み込みより前に空の変数を宣言しておけばOK</li>
+</ul>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="variable">$errors</span> = [];</span><br><span class="line"></span><br><span class="line"><span class="keyword">include</span> <span class="string">&#x27;views/new.php&#x27;</span>;</span><br></pre></td></tr></table></figure>
+<h2 id="フォームの入力値を残す"><a href="#フォームの入力値を残す" class="headerlink" title="フォームの入力値を残す"></a>フォームの入力値を残す</h2><p>フォームの入力でバリデーションエラーが出たら入力済みの値が消えてしまうが、値を保持させたい</p>
+<h3 id="inputタグのvalue属性を使う"><a href="#inputタグのvalue属性を使う" class="headerlink" title="inputタグのvalue属性を使う"></a>inputタグのvalue属性を使う</h3><p>input要素の値を指定する属性<br></p>
+<ul>
+<li>テキスト入力欄などにおいては初期入力値を表す<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;input type=<span class="string">&quot;text&quot;</span> id=<span class="string">&quot;name&quot;</span> name=<span class="string">&quot;name&quot;</span> value=<span class="string">&quot;&lt;?php echo <span class="subst">$company</span>[&#x27;name&#x27;]?&gt;&quot;</span>&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="ラジオボタンの初期値checked属性"><a href="#ラジオボタンの初期値checked属性" class="headerlink" title="ラジオボタンの初期値checked属性"></a>ラジオボタンの初期値checked属性</h3>checked属性をつけると初期値で選択された状態になる<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;input type&#x3D;&quot;radio&quot; name&#x3D;&quot;sex&quot; id&#x3D;&quot;sex1&quot; value&#x3D;&quot;男性&quot;</span><br><span class="line">    &lt;?php echo (#user[&#39;sex&#39;] &#x3D;&#x3D;&#x3D; &#39;男性&#39;)? &#39;checked&#39; : &#39;&#39; ; ?&gt;&gt;</span><br><span class="line">&lt;label for &#x3D;&quot;sex1&quot;&gt;男性&lt;&#x2F;label&gt;</span><br></pre></td></tr></table></figure></li>
+<li><strong>3項演算子とif文</strong><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">eco ($user[&#39;sec&#39;] &#x3D;&#x3D;&#x3D; &#39;男性&#39;) ? &#39;checked&#39; : &#39;&#39; ;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 以下の文と等価</span><br><span class="line"></span><br><span class="line">if ($user[&#39;sex&#39;] &#x3D;&#x3D;&#x3D; &#39;男性&#39;) &#123;</span><br><span class="line">    echo &#39;checked&#39;;</span><br><span class="line">&#125; else &#123;</span><br><span class="line">    echo &#39;&#39;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="フォーム初回読み込み時にエラーが出る"><a href="#フォーム初回読み込み時にエラーが出る" class="headerlink" title="フォーム初回読み込み時にエラーが出る"></a>フォーム初回読み込み時にエラーが出る</h3>初回読み込み時には、変数が未定義のため、エラーとなる。<br><br>回避のため、HTML読み込み前に変数を空で宣言しておく<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="variable">$review</span> = [</span><br><span class="line">    <span class="string">&#x27;title&#x27;</span> =&gt;<span class="string">&#x27;&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;author&#x27;</span> =&gt;<span class="string">&#x27;&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;status&#x27;</span> =&gt;<span class="string">&#x27;&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;score&#x27;</span> =&gt;<span class="string">&#x27;&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;summary&#x27;</span> =&gt;<span class="string">&#x27;&#x27;</span>,</span><br><span class="line">];</span><br><span class="line"></span><br><span class="line"><span class="variable">$errors</span> = [];</span><br><span class="line"></span><br><span class="line"><span class="keyword">include</span> <span class="string">&#x27;views/new.php&#x27;</span>;</span><br></pre></td></tr></table></figure></li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://takeshi-g.github.io/fragments/lesson6-05/" data-id="ckonwqj28000ivq9c2m5td2jf" data-title="データを登録する" class="article-share-link">共有</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-lesson6-04" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/fragments/lesson6-04/" class="article-date">
+  <time class="dt-published" datetime="2021-05-14T05:51:28.000Z" itemprop="datePublished">2021-05-14</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/fragments/lesson6-04/">HTMLで表示</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>Dockerの<code>src</code>以下のフォルダがApacheの<code>/var/www/html</code>のフォルダに同期されている<br><br>（<code>docker-compose.yml</code>の設定volumes:以下）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">app:</span><br><span class="line">  build:</span><br><span class="line">    context: .</span><br><span class="line">    dockerfile: docker&#x2F;app&#x2F;Dockerfile</span><br><span class="line">  ports:</span><br><span class="line">    - &quot;50080:80&quot;</span><br><span class="line">  volumes:</span><br><span class="line">    - .&#x2F;src:&#x2F;var&#x2F;www&#x2F;html</span><br><span class="line">  depends_on:</span><br><span class="line">    - db&#96;</span><br></pre></td></tr></table></figure>
+<p>src以下のフォルダに置いたファイルには、ブラウザから<br><br><code>localhost:50080/ファイルのパス</code>で表示できる</p>
+<h2 id="ページの表示"><a href="#ページの表示" class="headerlink" title="ページの表示"></a>ページの表示</h2><p>src直下に<code>new.php</code>を配置</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="meta">?&gt;</span></span><br><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html lang=<span class="string">&quot;ja&quot;</span>&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">  &lt;meta charset=<span class="string">&quot;UTF-8&quot;</span>&gt;</span><br><span class="line">  &lt;meta name=<span class="string">&quot;viewport&quot;</span> content=<span class="string">&quot;width=device-width, initial-scale=1.0&quot;</span>&gt;</span><br><span class="line">  &lt;title&gt;PHPファイルでHTMLを表示&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">&lt;h1&gt;HELLO WORLD!&lt;/h1&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+<p>ブラウザのアドレスに<code>http://localhost:50080/new.php</code>を指定するとHTMLが表示される</p>
+<h2 id="HTMLのフォーム"><a href="#HTMLのフォーム" class="headerlink" title="HTMLのフォーム"></a>HTMLのフォーム</h2><p>フォームとは「お問い合わせ」「会員登録」など、ユーザーが入力処理を行うために使用されるもの</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;form action&#x3D;&quot;create.php&quot; method&#x3D;&quot;post&quot;&gt;</span><br><span class="line">&lt;label for&#x3D;&quot;name&quot;&gt;名前&lt;&#x2F;label&gt;</span><br><span class="line">&lt;input type&#x3D;&quot;text&quot; name&#x3D;&quot;name&quot; id&#x3D;&quot;name&quot;&gt;</span><br><span class="line">&lt;button type&#x3D;&quot;submit&quot;&gt;登録する&lt;&#x2F;button&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>formタグ: フォームを作成する</li>
+<li>actionタグ: 送信ボタンを押した後に移動するページ</li>
+<li>method: データの送信方法GETかPOSTを指定。登録系のときはPOSTを指定</li>
+<li>labelタグ: フォームのラベルを作成する</li>
+<li>for パーツのid属性と同じ値にすることでパーツをラベルを関連づけられる</li>
+<li>input type=”text”: 1行のテキストエリアを設置する</li>
+<li>name: パーツの名前。PHPにデータを送信する際の項目名になる<h3 id="ラジオボタン"><a href="#ラジオボタン" class="headerlink" title="ラジオボタン"></a>ラジオボタン</h3>ラジオボタンにすることで複数から一つを選ばせることができる。<br><br>nameの名前を同じにするとグループ化できる<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">&quot;create.php&quot;</span> <span class="attr">method</span>=<span class="string">&quot;post&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;radio&quot;</span> <span class="attr">name</span>=<span class="string">&quot;sex&quot;</span> <span class="attr">id</span>=<span class="string">&quot;male&quot;</span> <span class="attr">value</span>=<span class="string">&quot;male&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">label</span> <span class="attr">for</span>=<span class="string">&quot;male&quot;</span>&gt;</span>男性<span class="tag">&lt;/<span class="name">label</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;radio&quot;</span> <span class="attr">name</span>=<span class="string">&quot;sex&quot;</span> <span class="attr">id</span>=<span class="string">&quot;female&quot;</span> <span class="attr">value</span>=<span class="string">&quot;female&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">label</span> <span class="attr">for</span>=<span class="string">&quot;female&quot;</span>&gt;</span>女性<span class="tag">&lt;/<span class="name">label</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">button</span> <span class="attr">type</span>=<span class="string">&quot;submit&quot;</span>&gt;</span>登録する<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://takeshi-g.github.io/fragments/lesson6-04/" data-id="ckonwqj26000hvq9c4twc1v3t" data-title="HTMLで表示" class="article-share-link">共有</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-lesson6-03" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/fragments/lesson6-03/" class="article-date">
+  <time class="dt-published" datetime="2021-05-14T05:50:48.000Z" itemprop="datePublished">2021-05-14</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/fragments/lesson6-03/">PHPでライブラリを使う</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>環境変数の管理にライブラリ<code>PHPDOTENV</code>を使うので、ライブラリの管理ツールを導入<br><br>PHPでライブラリを導入したいときはComposerを使うと便利。<br><br>ComposerはPHPの依存管理ツール</p>
+<h2 id="Composerの仕組み"><a href="#Composerの仕組み" class="headerlink" title="Composerの仕組み"></a>Composerの仕組み</h2><p><code>composer.json</code>と<code>composer.lock</code>ファイルで依存するライブラリを定義する。</p>
+<ul>
+<li><code>composer.json</code><ul>
+<li>プロジェクトで使用するライブラリを一覧にしたもの</li>
+</ul>
+</li>
+<li><code>composer.lock</code><ul>
+<li>実際にどのライブラリのどのバージョンをダウンロードしたかをひとまとめにしたもの</li>
+</ul>
+</li>
+</ul>
+<ol>
+<li><code>composer install</code> を実行すると、インストールしたライブラリとバージョン情報が書き出される</li>
+<li><code>composer.lock</code>がある状態で<code>composer install</code>すると、<code>composer.lock</code>に記されたバージョンのライブラリがインストールされる<h2 id="Composerのコマンド"><a href="#Composerのコマンド" class="headerlink" title="Composerのコマンド"></a>Composerのコマンド</h2></li>
+</ol>
+<ul>
+<li><code>init</code> 対話形式で<code>composer.json</code> を作成する<ul>
+<li><code>composer init</code></li>
+</ul>
+</li>
+<li><code>require</code>新しいライブラリを追加する<br><br><code>composer.json</code>にライブラリが、<code>composer.lock</code>に実際にインストールしたものが記載される<ul>
+<li><code>composer require &lt;ライブラリ名&gt;</code></li>
+</ul>
+</li>
+<li><code>install</code> <code>composer.json</code>もしくは<code>composer.lock</code>にしたがってライブラリをインストールする-共通のバージョンのライブラリを使うことができる<ul>
+<li><code>composer install</code></li>
+</ul>
+</li>
+<li><code>remove</code>ライブラリを取り除く<ul>
+<li><code>composer remove &lt;ライブラリ名&gt;</code><h2 id="環境変数を管理"><a href="#環境変数を管理" class="headerlink" title="環境変数を管理"></a>環境変数を管理</h2></li>
+</ul>
+</li>
+<li>通常の変数 - PHPのコードの中で定義し、実行したプロセス内でのみ使用できる</li>
+<li>環境変数 - PHPが動いているOSに保存し<br>PHPアプリケーションに渡す仕組み(OSに格納される変数)<h3 id="PHPで環境変数をつかう"><a href="#PHPで環境変数をつかう" class="headerlink" title="PHPで環境変数をつかう"></a>PHPで環境変数をつかう</h3><code>.env</code>ファイルを使って環境変数を管理(<code>phpdotenv</code>)</li>
+<li><code>.env</code>ファイル: 重要な設定データを定義 = 環境変数<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DB_HOST&#x3D;db</span><br></pre></td></tr></table></figure></li>
+<li>プログラムのファイル: <code>.env</code>ファイルに定義された値を取得して使える<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$dbHost &#x3D; $_ENV[&#39;DB_HOST&#39;]</span><br><span class="line">$link &#x3D; mysqki_connect($dbHost, ..., ..., ...);</span><br></pre></td></tr></table></figure>
+<h2 id="Composerのインストール"><a href="#Composerのインストール" class="headerlink" title="Composerのインストール"></a>Composerのインストール</h2><code>docker-compose exec app composer init</code><br><br>設定はそのままエンター連打。文字を入力するのは以下の2か所<br><br>Author [, n to skip]: nを入力<br><br>Do you confirm generation [yes]? yesを入力<br><br><code>src</code>以下に<code>composer.json</code>ファイルができている<h2 id="phpdotenvのインストール"><a href="#phpdotenvのインストール" class="headerlink" title="phpdotenvのインストール"></a>phpdotenvのインストール</h2>GitHubより、インストール法をコピペ<br><code>docker-compose exec app composer require vlucas/phpdotenv</code><h2 id="envファイルに環境変数を定義"><a href="#envファイルに環境変数を定義" class="headerlink" title=".envファイルに環境変数を定義"></a>.envファイルに環境変数を定義</h2>.env<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">DB_HOST&#x3D;&quot;db&quot;</span><br><span class="line">DB_USERNAME&#x3D;&quot;book_log&quot;</span><br><span class="line">DB_PASSWORD&#x3D;&quot;pass&quot;</span><br><span class="line">DB_DATABASE&#x3D;&quot;book_log&quot;</span><br></pre></td></tr></table></figure>
+<h2 id="PHPファイルで読み込み"><a href="#PHPファイルで読み込み" class="headerlink" title="PHPファイルで読み込み"></a>PHPファイルで読み込み</h2>phpファイルの最初にライブラリを読み込む<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">require</span> <span class="keyword">__DIR__</span> . <span class="string">&#x27;/../vendor/autoload.php&#x27;</span>; <span class="comment">// オートロードファイルを読み込む</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">dbConnect</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="variable">$dotenv</span> = Dotenv\Dotenv::createImmutable(<span class="keyword">__DIR__</span> . <span class="string">&#x27;/..&#x27;</span>); <span class="comment">// .envファイルを読み込む</span></span><br><span class="line">    <span class="variable">$dotenv</span>-&gt;load();</span><br><span class="line"></span><br><span class="line">    <span class="variable">$dbHost</span> = <span class="variable">$_ENV</span>[<span class="string">&#x27;DB_HOST&#x27;</span>];           <span class="comment">// 環境変数を変数に代入</span></span><br><span class="line">    <span class="variable">$dbUsername</span> = <span class="variable">$_ENV</span>[<span class="string">&#x27;DB_USERNAME&#x27;</span>];</span><br><span class="line">    <span class="variable">$dbPassword</span> = <span class="variable">$_ENV</span>[<span class="string">&#x27;DB_PASSWORD&#x27;</span>];</span><br><span class="line">    <span class="variable">$dbDatabase</span> = <span class="variable">$_ENV</span>[<span class="string">&#x27;DB_DATABASE&#x27;</span>];</span><br><span class="line"></span><br><span class="line">    <span class="variable">$link</span> = mysqli_connect(<span class="variable">$dbHost</span>, <span class="variable">$dbUsername</span>, <span class="variable">$dbPassword</span>, <span class="variable">$dbDatabase</span>);  <span class="comment">// 環境変数を代入した変数を使ってデータベースに接続</span></span><br><span class="line">    <span class="keyword">if</span> (!<span class="variable">$link</span>) &#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&#x27;Error: データベーに接続できません&#x27;</span> . PHP_EOL;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&#x27;Debugging error: &#x27;</span> . mysqli_connect_error() . PHP_EOL;</span><br><span class="line">        <span class="keyword">exit</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="variable">$link</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://takeshi-g.github.io/fragments/lesson6-03/" data-id="ckonwqj24000evq9c3v6vfciv" data-title="PHPでライブラリを使う" class="article-share-link">共有</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-lesson6-02" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/fragments/lesson6-02/" class="article-date">
@@ -104,7 +449,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://takeshi-g.github.io/fragments/lesson6-02/" data-id="ckonw9kqc000csj9c6tjydt0u" data-title="PHPからデータベースのテーブルを作成" class="article-share-link">共有</a>
+      <a data-url="https://takeshi-g.github.io/fragments/lesson6-02/" data-id="ckonwqj22000cvq9cejyhh8ae" data-title="PHPからデータベースのテーブルを作成" class="article-share-link">共有</a>
       
       
       
@@ -140,17 +485,17 @@
       
         <p>開発順序: 設計 -&gt; テーブル作成 -&gt; HTML -&gt; ロジック処理 -&gt; CSS</p>
 <h3 id="Webサービスを作成"><a href="#Webサービスを作成" class="headerlink" title="Webサービスを作成"></a>Webサービスを作成</h3><ul>
-<li><a href="https://takeshi-g.github.io/fragments/lesson6_02">PHPでテーブル作成</a></li>
-<li>環境変数の設定</li>
-<li>HTMLで表示</li>
-<li>データの登録</li>
-<li>CSSでスタイルを整える</li>
+<li><a href="https://takeshi-g.github.io/fragments/lesson6-02/">PHPでテーブル作成</a></li>
+<li><a href="https://takeshi-g.github.io/fragments/lesson6-03">環境変数の設定</a></li>
+<li><a href="https://takeshi-g.github.io/fragments/lesson6-04">HTMLで表示</a></li>
+<li><a href="https://takeshi-g.github.io/fragments/lesson6-05">データの登録</a></li>
+<li><a href="https://takeshi-g.github.io/fragments/lesson6-06">CSSでスタイルを整える</a></li>
 </ul>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://takeshi-g.github.io/fragments/lesson6-01/" data-id="ckonw9kq9000asj9c5tzth6t6" data-title="WEBサービスの開発手順" class="article-share-link">共有</a>
+      <a data-url="https://takeshi-g.github.io/fragments/lesson6-01/" data-id="ckonwqj20000avq9cbib3e1ch" data-title="WEBサービスの開発手順" class="article-share-link">共有</a>
       
       
       
@@ -190,7 +535,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://takeshi-g.github.io/fragments/web-dev001/" data-id="ckonw9kqd000esj9cdazd8veo" data-title="web_dev001" class="article-share-link">共有</a>
+      <a data-url="https://takeshi-g.github.io/fragments/web-dev001/" data-id="ckonwqj2b000mvq9c6ee61d8d" data-title="web_dev001" class="article-share-link">共有</a>
       
       
       
@@ -361,7 +706,7 @@ $sqlにSQL文を格納し、mysqli()関数の第２引数に渡すと、PHPか�
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://takeshi-g.github.io/fragments/lesson5-database/" data-id="ckonw9kq70009sj9c3pk66vnr" data-title="lesson5 データベース(MySQL)" class="article-share-link">共有</a>
+      <a data-url="https://takeshi-g.github.io/fragments/lesson5-database/" data-id="ckonwqj1y0009vq9chqe53knx" data-title="lesson5 データベース(MySQL)" class="article-share-link">共有</a>
       
       
       
@@ -480,7 +825,7 @@ $sqlにSQL文を格納し、mysqli()関数の第２引数に渡すと、PHPか�
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://takeshi-g.github.io/fragments/lesson4-01/" data-id="ckonw9kq60007sj9cbpl792zy" data-title="lesson4 PHPでテキストアプリ開発" class="article-share-link">共有</a>
+      <a data-url="https://takeshi-g.github.io/fragments/lesson4-01/" data-id="ckonwqj1x0007vq9c0u8z3ika" data-title="lesson4 PHPでテキストアプリ開発" class="article-share-link">共有</a>
       
       
       
@@ -605,335 +950,11 @@ $sqlにSQL文を格納し、mysqli()関数の第２引数に渡すと、PHPか�
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://takeshi-g.github.io/fragments/wsl2/" data-id="ckonw9kqr0015sj9c3htt0mhb" data-title="Windows10での開発環境構築 備忘録" class="article-share-link">共有</a>
+      <a data-url="https://takeshi-g.github.io/fragments/wsl2/" data-id="ckonwqj2c000pvq9c55lr5l94" data-title="Windows10での開発環境構築 備忘録" class="article-share-link">共有</a>
       
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/fragments/tags/wsl2-%E7%92%B0%E5%A2%83%E6%A7%8B%E7%AF%89-Docker-GitHub/" rel="tag">wsl2 環境構築 Docker GitHub</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-hello-world" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/fragments/hello-world/" class="article-date">
-  <time class="dt-published" datetime="2021-04-17T17:23:10.480Z" itemprop="datePublished">2021-04-18</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/fragments/hello-world/">Hello World</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://takeshi-g.github.io/fragments/hello-world/" data-id="ckonw9kpv0001sj9ce7s2h1gr" data-title="Hello World" class="article-share-link">共有</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-lesson3-04" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/fragments/lesson3-04/" class="article-date">
-  <time class="dt-published" datetime="2021-04-04T02:00:39.000Z" itemprop="datePublished">2021-04-04</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/fragments/lesson3-04/">Lesson3 タスクばらし</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>タスクばらしとは、仕事にとりかかる前に、仕事をタスクにばらすこと。</p>
-<p>タスクばらしができると、無駄な仕事をせずに済んだり、自分の仕事を把握し自立して仕事できるようになる</p>
-<ul>
-<li>仕事の要素を分解<ul>
-<li>進め方の道筋をたてる</li>
-<li>かかる時間やリスクなどの見通しを得る</li>
-</ul>
-</li>
-</ul>
-<h2 id="タスクばらしの方法とコツ"><a href="#タスクばらしの方法とコツ" class="headerlink" title="タスクばらしの方法とコツ"></a>タスクばらしの方法とコツ</h2><p>タスクを１時間以内で終わる単位に小さくばらすのがミソ</p>
-<ul>
-<li><p>方法</p>
-<ol>
-<li>ゴールを確認・理解する</li>
-<li>ゴール達成のために必要な項目をリストアップする</li>
-<li>実行順に並び替える</li>
-</ol>
-</li>
-<li><p>コツ</p>
-<ol>
-<li>小さく分解すること　-&gt; １時間以内で終わる単位で分解する</li>
-</ol>
-</li>
-</ul>
-<h2 id="タスクを洗い出す-読書ログアプリの場合"><a href="#タスクを洗い出す-読書ログアプリの場合" class="headerlink" title="タスクを洗い出す (読書ログアプリの場合)"></a>タスクを洗い出す (読書ログアプリの場合)</h2><ul>
-<li>トップページ<ul>
-<li>登録ページへのリンクを貼る</li>
-<li>データベースから読書ログの一覧を取得する</li>
-<li>トップページを  HTMLで表示する</li>
-<li>トップページのスタイルをCSSで整える</li>
-</ul>
-</li>
-<li>登録ページ<ul>
-<li>データベースに読書ログを保存する</li>
-<li>保存したらトップページへリダイレクトする</li>
-<li>登録ページをHTMLで表示する</li>
-<li>登録ページのスタイルをSSで整える</li>
-</ul>
-</li>
-<li>Web上に公開<ul>
-<li>Herokuのアカウントを作成する</li>
-<li>Heroku上でアプリケーションを動かす</li>
-<li>Heroku上でデータベースと連携する</li>
-</ul>
-</li>
-</ul>
-<p>これでもまだ多くの技術要素が混じってて難しい<br>PHP, DB, HTML, CSS, Heroku</p>
-<h2 id="小さく、１つずつやろう"><a href="#小さく、１つずつやろう" class="headerlink" title="小さく、１つずつやろう"></a>小さく、１つずつやろう</h2><p>まずは簡単なところから。技術要素を１つずつやっていこう</p>
-<ol>
-<li>テキスト版アプリケーションを作成</li>
-</ol>
-<ul>
-<li>PHPのロジック部分を扱う</li>
-</ul>
-<ol start="2">
-<li>テキスト版アプリケーションをデータベースに対応させる</li>
-</ol>
-<ul>
-<li>PHPからデータベースへデータを保存・取得する部分を扱う</li>
-</ul>
-<ol start="3">
-<li>Webアプリケーションを作成</li>
-</ol>
-<ul>
-<li>HTML, CSSでWebページとして表示する部分を扱う</li>
-</ul>
-<ol start="4">
-<li>Herokuを使用してアプリケーションをWeb上に公開</li>
-</ol>
-<ul>
-<li>Web上で動作させる部分を扱う</li>
-</ul>
-<h2 id="タスクにばらそう-読書ログアプリの場合"><a href="#タスクにばらそう-読書ログアプリの場合" class="headerlink" title="タスクにばらそう(読書ログアプリの場合)"></a>タスクにばらそう(読書ログアプリの場合)</h2><ol>
-<li>テキスト版アプリケーションを作成</li>
-</ol>
-<ul>
-<li>読書ログを表示する</li>
-<li>読書ログを登録する</li>
-<li>メニュー化し、アプリケーションとして動作する</li>
-<li>複数の読書ログを登録・表示する</li>
-</ul>
-<ol start="2">
-<li>アプリケーションをデータベースに対応させる</li>
-</ol>
-<ul>
-<li>読書ログを保存するテーブルを作成する</li>
-<li>PHPからデーターに接続する</li>
-<li>読書ログをデータベースに登録する</li>
-<li>読書ログをデータベースから表示する</li>
-</ul>
-<ol start="3">
-<li>Webアプリケーションを作成</li>
-</ol>
-<ul>
-<li>[登録ページ]HTMLで表示する</li>
-<li>[登録ページ]読書ログを登録する</li>
-<li>[読書ページ]CSSでスタイルを整える</li>
-<li>[トップページ]HTMLで表示する</li>
-<li>[トップページ]読書ログの一覧を表示する</li>
-<li>[トップページ]CSSでスタイルを整える</li>
-</ul>
-<ol start="4">
-<li>Herokuを使用してアプリケーションをWeb上に公開</li>
-</ol>
-<ul>
-<li>Herokuアカウントを作成する</li>
-<li>Heroku上でアプリケーションを動かす</li>
-<li>Heroku上でデータベースと連携する</li>
-</ul>
-<h2 id="Microsoft-ToDo-と連携"><a href="#Microsoft-ToDo-と連携" class="headerlink" title="Microsoft ToDo と連携"></a>Microsoft ToDo と連携</h2><p>以上のタスクばらしで作ったタスクを実行するだでの段階になると、そのタスクの管理方法が必要になる。<br>takeshi-gはMicrosoft謹製ToDoアプリ、「ToDo」にタスクを落とし込んで、タスクを一個づつ実行できるように環境整備してみた</p>
-<p>  <a target="_blank" rel="noopener" href="https://todo.microsoft.com/">To Do へようこそ</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://takeshi-g.github.io/fragments/lesson3-04/" data-id="ckonw9kq50006sj9cbkl1fwnk" data-title="Lesson3 タスクばらし" class="article-share-link">共有</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/fragments/tags/ToDo/" rel="tag">ToDo</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/fragments/tags/%E7%8B%AC%E5%AD%A6%E3%82%A8%E3%83%B3%E3%82%B8%E3%83%8B%E3%82%A2/" rel="tag">独学エンジニア</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-lesson3-03" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/fragments/lesson3-03/" class="article-date">
-  <time class="dt-published" datetime="2021-04-02T04:25:32.000Z" itemprop="datePublished">2021-04-02</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/fragments/lesson3-03/">Lesson3 プログラムの作り方2 要件定義</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>システムを作る上で、「必要な条件」を定義してシステムに落としこめるようにしよう。</p>
-<ul>
-<li>業務要件<ul>
-<li>業務フロー</li>
-</ul>
-</li>
-<li>機能要件<ul>
-<li>ページ遷移図</li>
-<li>WF(画面図)</li>
-<li>機能</li>
-<li>データ</li>
-</ul>
-</li>
-<li>非機能要件<ul>
-<li>性能</li>
-<li>拡張性</li>
-<li>可用性</li>
-<li>セキュリティ</li>
-</ul>
-</li>
-<li>運用・保守要件<ul>
-<li>運用体制</li>
-<li>保守体制</li>
-<li>障害時体制</li>
-</ul>
-</li>
-</ul>
-<h2 id="業務要件-業務フロー"><a href="#業務要件-業務フロー" class="headerlink" title="業務要件(業務フロー)"></a>業務要件(業務フロー)</h2><p>登場人物ごとに業務(行動)の流れを図にしよう</p>
-<p>人物 — 業務フロー</p>
-<p>自分 — サイトを開く –&gt; 読書ログを登録する –&gt; 読書ログを閲覧する</p>
-<p>自分 — サイトを開く –&gt; 読書ログを閲覧する</p>
-<h2 id="機能要件-ページ遷移図"><a href="#機能要件-ページ遷移図" class="headerlink" title="機能要件(ページ遷移図)"></a>機能要件(ページ遷移図)</h2><p>必要なページを洗い出して、ページの流れを図にしよう<br><img src="lesson3-03/pagenation.png" alt="ページ遷移図"></p>
-<h2 id="機能要件-WF・機能・データ"><a href="#機能要件-WF・機能・データ" class="headerlink" title="機能要件(WF・機能・データ)"></a>機能要件(WF・機能・データ)</h2><p>ワイヤーフレーム、機能、データをページごとにまとめよう</p>
-<h3 id="「トップページ」"><a href="#「トップページ」" class="headerlink" title="「トップページ」"></a>「トップページ」</h3><p><img src="lesson3-03/top-page.png" alt="トップページ"></p>
-<h3 id="「登録ページ」"><a href="#「登録ページ」" class="headerlink" title="「登録ページ」"></a>「登録ページ」</h3><p><img src="lesson3-03/registration-page.png" alt="登録ページ"></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://takeshi-g.github.io/fragments/lesson3-03/" data-id="ckonw9kq30005sj9c5v2afl99" data-title="Lesson3 プログラムの作り方2 要件定義" class="article-share-link">共有</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/fragments/tags/%E8%A6%81%E4%BB%B6%E5%AE%9A%E7%BE%A9/" rel="tag">要件定義</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/fragments/tags/%E8%AA%AD%E6%9B%B8%E3%83%AD%E3%82%B0%E3%82%B5%E3%83%BC%E3%83%93%E3%82%B9/" rel="tag">読書ログサービス</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-lesson3-01" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/fragments/lesson3-01/" class="article-date">
-  <time class="dt-published" datetime="2021-04-02T01:08:04.000Z" itemprop="datePublished">2021-04-02</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/fragments/lesson3-01/">lesson3 プログラムの作り方</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>プログラムを作れるようになるには、プログラムの作り方を学び、実際に作る必要がある。（プログラム言語の文法を学んでもアプリは作れるようになれない！）</p>
-<h2 id="プログラムを作る際に重要なこと"><a href="#プログラムを作る際に重要なこと" class="headerlink" title="プログラムを作る際に重要なこと"></a>プログラムを作る際に重要なこと</h2><ul>
-<li>課題を設定する</li>
-<li>要件に落とし込む</li>
-<li>タスクにばらす</li>
-<li>1つずつ実行する</li>
-</ul>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://takeshi-g.github.io/fragments/lesson3-01/" data-id="ckonw9kpy0002sj9c360s5zyl" data-title="lesson3 プログラムの作り方" class="article-share-link">共有</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/fragments/tags/%E7%8B%AC%E5%AD%A6%E3%82%A8%E3%83%B3%E3%82%B8%E3%83%8B%E3%82%A2/" rel="tag">独学エンジニア</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/fragments/tags/%E8%AA%AD%E6%9B%B8%E3%83%AD%E3%82%B0%E3%82%B5%E3%83%BC%E3%83%93%E3%82%B9/" rel="tag">読書ログサービス</a></li></ul>
 
     </footer>
   </div>
@@ -993,23 +1014,23 @@ $sqlにSQL文を格納し、mysqli()関数の第２引数に渡すと、PHPか�
       <ul>
         
           <li>
+            <a href="/fragments/lesson6-06/">CSSでスタイルを整える</a>
+          </li>
+        
+          <li>
+            <a href="/fragments/lesson6-05/">データを登録する</a>
+          </li>
+        
+          <li>
+            <a href="/fragments/lesson6-04/">HTMLで表示</a>
+          </li>
+        
+          <li>
+            <a href="/fragments/lesson6-03/">PHPでライブラリを使う</a>
+          </li>
+        
+          <li>
             <a href="/fragments/lesson6-02/">PHPからデータベースのテーブルを作成</a>
-          </li>
-        
-          <li>
-            <a href="/fragments/lesson6-01/">WEBサービスの開発手順</a>
-          </li>
-        
-          <li>
-            <a href="/fragments/web-dev001/">web_dev001</a>
-          </li>
-        
-          <li>
-            <a href="/fragments/lesson5-database/">lesson5 データベース(MySQL)</a>
-          </li>
-        
-          <li>
-            <a href="/fragments/lesson4-01/">lesson4 PHPでテキストアプリ開発</a>
           </li>
         
       </ul>
