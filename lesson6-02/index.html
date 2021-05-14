@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>PHPからデータベースのテーブルを作成 | FRAGMENTs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="PHPファイルからテーブルを作成できるように準備mysqli()関数をつかう 12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849&lt;?phpfunction dbConnect()&amp;#123;    $link &#x3D; mysqli_connect(&amp;#x27;db&amp;#x">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PHPからデータベースのテーブルを作成">
+<meta property="og:url" content="https://takeshi-g.github.io/fragments/lesson6-02/index.html">
+<meta property="og:site_name" content="FRAGMENTs">
+<meta property="og:description" content="PHPファイルからテーブルを作成できるように準備mysqli()関数をつかう 12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849&lt;?phpfunction dbConnect()&amp;#123;    $link &#x3D; mysqli_connect(&amp;#x27;db&amp;#x">
+<meta property="og:locale" content="ja_JP">
+<meta property="article:published_time" content="2021-05-14T05:40:13.000Z">
+<meta property="article:modified_time" content="2021-05-14T05:41:19.320Z">
+<meta property="article:author" content="Takeshi Goto">
+<meta property="article:tag" content="マラソン, 独学エンジニア, サーバーサイド">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/fragments/atom.xml" title="FRAGMENTs" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/fragments/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/fragments/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fragments/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/fragments/" id="logo">FRAGMENTs</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/fragments/" id="subtitle">独学でエンジニアになれるか挑戦しつつ、マラソンの３時間切りも挑戦する記録</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/fragments/">Home</a>
+        
+          <a class="main-nav-link" href="/fragments/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/fragments/atom.xml" title="RSSフィード"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="検索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="検索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://takeshi-g.github.io/fragments"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-lesson6-02" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/fragments/lesson6-02/" class="article-date">
+  <time class="dt-published" datetime="2021-05-14T05:40:13.000Z" itemprop="datePublished">2021-05-14</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      PHPからデータベースのテーブルを作成
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>PHPファイルからテーブルを作成できるように準備<br><br><code>mysqli()</code>関数をつかう</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">dbConnect</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="variable">$link</span> = mysqli_connect(<span class="string">&#x27;db&#x27;</span>, <span class="string">&#x27;book_log&#x27;</span>, <span class="string">&#x27;pass&#x27;</span>, <span class="string">&#x27;book_log&#x27;</span>);</span><br><span class="line">    <span class="keyword">if</span> (!<span class="variable">$link</span>) &#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&#x27;Error: データベーに接続できません&#x27;</span> . PHP_EOL;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&#x27;Debugging error: &#x27;</span> . mysqli_connect_error() . PHP_EOL;</span><br><span class="line">        <span class="keyword">exit</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="variable">$link</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">dropTable</span>(<span class="params"><span class="variable">$link</span></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="variable">$dropTableSql</span> = <span class="string">&#x27;DROP TABLE IF EXISTS companies;&#x27;</span>;</span><br><span class="line">    <span class="variable">$result</span> = mysqli_query(<span class="variable">$link</span>, <span class="variable">$dropTableSql</span>);</span><br><span class="line">    <span class="keyword">if</span> (<span class="variable">$result</span>) &#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&#x27;テーブルを削除しました&#x27;</span> . PHP_EOL;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&#x27;Error: テーブルの削除に失敗しました&#x27;</span> . PHP_EOL;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&#x27;Debugging Error: &#x27;</span> . mysqli_error(<span class="variable">$link</span>) . PHP_EOL;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">createTable</span>(<span class="params"><span class="variable">$link</span></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="variable">$createTableSql</span> = &lt;&lt;&lt;EOT</span><br><span class="line">CREATE TABLE companies (</span><br><span class="line">    id <span class="keyword">INTEGER</span> AUTO_INCREMENT NOT <span class="literal">NULL</span> PRIMARY KEY,</span><br><span class="line">    name VARCHAR(<span class="number">255</span>),</span><br><span class="line">    establishment_date DATE,</span><br><span class="line">    founder VARCHAR(<span class="number">255</span>),</span><br><span class="line">    created_at TIMESTAMP NOT <span class="literal">NULL</span> <span class="keyword">DEFAULT</span> CURRENT_TIMESTAMP</span><br><span class="line">) <span class="keyword">DEFAULT</span> CHARACTER SET=utf8mb4;</span><br><span class="line">EOT;</span><br><span class="line">    <span class="variable">$result</span> = mysqli_query(<span class="variable">$link</span>, <span class="variable">$createTableSql</span>);</span><br><span class="line">    <span class="keyword">if</span> (<span class="variable">$result</span>) &#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&#x27;テーブルを作成しました&#x27;</span> . PHP_EOL;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&#x27;Error: テーブルの作成に失敗しました&#x27;</span> . PHP_EOL;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&#x27;Debugging Error: &#x27;</span> . mysqli_error(<span class="variable">$link</span>) . PHP_EOL;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="variable">$link</span> = dbConnect();</span><br><span class="line">dropTable(<span class="variable">$link</span>);</span><br><span class="line">createTable(<span class="variable">$link</span>);</span><br><span class="line">mysqli_close(<span class="variable">$link</span>);</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://takeshi-g.github.io/fragments/lesson6-02/" data-id="ckonw9kqc000csj9c6tjydt0u" data-title="PHPからデータベースのテーブルを作成" class="article-share-link">共有</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/fragments/lesson6-01/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前の記事</strong>
+      <div class="article-nav-title">WEBサービスの開発手順</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">タグ</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/fragments/tags/MySQL/" rel="tag">MySQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/fragments/tags/PHP/" rel="tag">PHP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/fragments/tags/ToDo/" rel="tag">ToDo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/fragments/tags/web%E3%82%B5%E3%83%BC%E3%83%93%E3%82%B9/" rel="tag">webサービス</a></li><li class="tag-list-item"><a class="tag-list-link" href="/fragments/tags/wsl2-%E7%92%B0%E5%A2%83%E6%A7%8B%E7%AF%89-Docker-GitHub/" rel="tag">wsl2 環境構築 Docker GitHub</a></li><li class="tag-list-item"><a class="tag-list-link" href="/fragments/tags/%E3%83%87%E3%83%BC%E3%82%BF%E3%83%99%E3%83%BC%E3%82%B9/" rel="tag">データベース</a></li><li class="tag-list-item"><a class="tag-list-link" href="/fragments/tags/%E6%A7%8B%E6%96%87/" rel="tag">構文</a></li><li class="tag-list-item"><a class="tag-list-link" href="/fragments/tags/%E7%8B%AC%E5%AD%A6%E3%82%A8%E3%83%B3%E3%82%B8%E3%83%8B%E3%82%A2/" rel="tag">独学エンジニア</a></li><li class="tag-list-item"><a class="tag-list-link" href="/fragments/tags/%E8%A6%81%E4%BB%B6%E5%AE%9A%E7%BE%A9/" rel="tag">要件定義</a></li><li class="tag-list-item"><a class="tag-list-link" href="/fragments/tags/%E8%AA%AD%E6%9B%B8%E3%83%AD%E3%82%B0%E3%82%B5%E3%83%BC%E3%83%93%E3%82%B9/" rel="tag">読書ログサービス</a></li><li class="tag-list-item"><a class="tag-list-link" href="/fragments/tags/%E8%AA%B2%E9%A1%8C%E5%AE%9A%E7%BE%A9/" rel="tag">課題定義</a></li><li class="tag-list-item"><a class="tag-list-link" href="/fragments/tags/%E9%96%8B%E7%99%BA%E6%89%8B%E9%A0%86/" rel="tag">開発手順</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">タグクラウド</h3>
+    <div class="widget tagcloud">
+      <a href="/fragments/tags/MySQL/" style="font-size: 10px;">MySQL</a> <a href="/fragments/tags/PHP/" style="font-size: 10px;">PHP</a> <a href="/fragments/tags/ToDo/" style="font-size: 10px;">ToDo</a> <a href="/fragments/tags/web%E3%82%B5%E3%83%BC%E3%83%93%E3%82%B9/" style="font-size: 10px;">webサービス</a> <a href="/fragments/tags/wsl2-%E7%92%B0%E5%A2%83%E6%A7%8B%E7%AF%89-Docker-GitHub/" style="font-size: 10px;">wsl2 環境構築 Docker GitHub</a> <a href="/fragments/tags/%E3%83%87%E3%83%BC%E3%82%BF%E3%83%99%E3%83%BC%E3%82%B9/" style="font-size: 10px;">データベース</a> <a href="/fragments/tags/%E6%A7%8B%E6%96%87/" style="font-size: 10px;">構文</a> <a href="/fragments/tags/%E7%8B%AC%E5%AD%A6%E3%82%A8%E3%83%B3%E3%82%B8%E3%83%8B%E3%82%A2/" style="font-size: 20px;">独学エンジニア</a> <a href="/fragments/tags/%E8%A6%81%E4%BB%B6%E5%AE%9A%E7%BE%A9/" style="font-size: 10px;">要件定義</a> <a href="/fragments/tags/%E8%AA%AD%E6%9B%B8%E3%83%AD%E3%82%B0%E3%82%B5%E3%83%BC%E3%83%93%E3%82%B9/" style="font-size: 20px;">読書ログサービス</a> <a href="/fragments/tags/%E8%AA%B2%E9%A1%8C%E5%AE%9A%E7%BE%A9/" style="font-size: 10px;">課題定義</a> <a href="/fragments/tags/%E9%96%8B%E7%99%BA%E6%89%8B%E9%A0%86/" style="font-size: 10px;">開発手順</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">アーカイブ</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/fragments/archives/2021/05/">5月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/fragments/archives/2021/04/">4月 2021</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最近の投稿</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/fragments/lesson6-02/">PHPからデータベースのテーブルを作成</a>
+          </li>
+        
+          <li>
+            <a href="/fragments/lesson6-01/">WEBサービスの開発手順</a>
+          </li>
+        
+          <li>
+            <a href="/fragments/web-dev001/">web_dev001</a>
+          </li>
+        
+          <li>
+            <a href="/fragments/lesson5-database/">lesson5 データベース(MySQL)</a>
+          </li>
+        
+          <li>
+            <a href="/fragments/lesson4-01/">lesson4 PHPでテキストアプリ開発</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2021 Takeshi Goto<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/fragments/" class="mobile-nav-link">Home</a>
+  
+    <a href="/fragments/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/fragments/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fragments/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/fragments/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

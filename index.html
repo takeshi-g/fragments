@@ -76,6 +76,46 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-lesson6-02" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/fragments/lesson6-02/" class="article-date">
+  <time class="dt-published" datetime="2021-05-14T05:40:13.000Z" itemprop="datePublished">2021-05-14</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/fragments/lesson6-02/">PHPからデータベースのテーブルを作成</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>PHPファイルからテーブルを作成できるように準備<br><br><code>mysqli()</code>関数をつかう</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">dbConnect</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="variable">$link</span> = mysqli_connect(<span class="string">&#x27;db&#x27;</span>, <span class="string">&#x27;book_log&#x27;</span>, <span class="string">&#x27;pass&#x27;</span>, <span class="string">&#x27;book_log&#x27;</span>);</span><br><span class="line">    <span class="keyword">if</span> (!<span class="variable">$link</span>) &#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&#x27;Error: データベーに接続できません&#x27;</span> . PHP_EOL;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&#x27;Debugging error: &#x27;</span> . mysqli_connect_error() . PHP_EOL;</span><br><span class="line">        <span class="keyword">exit</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="variable">$link</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">dropTable</span>(<span class="params"><span class="variable">$link</span></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="variable">$dropTableSql</span> = <span class="string">&#x27;DROP TABLE IF EXISTS companies;&#x27;</span>;</span><br><span class="line">    <span class="variable">$result</span> = mysqli_query(<span class="variable">$link</span>, <span class="variable">$dropTableSql</span>);</span><br><span class="line">    <span class="keyword">if</span> (<span class="variable">$result</span>) &#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&#x27;テーブルを削除しました&#x27;</span> . PHP_EOL;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&#x27;Error: テーブルの削除に失敗しました&#x27;</span> . PHP_EOL;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&#x27;Debugging Error: &#x27;</span> . mysqli_error(<span class="variable">$link</span>) . PHP_EOL;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">createTable</span>(<span class="params"><span class="variable">$link</span></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="variable">$createTableSql</span> = &lt;&lt;&lt;EOT</span><br><span class="line">CREATE TABLE companies (</span><br><span class="line">    id <span class="keyword">INTEGER</span> AUTO_INCREMENT NOT <span class="literal">NULL</span> PRIMARY KEY,</span><br><span class="line">    name VARCHAR(<span class="number">255</span>),</span><br><span class="line">    establishment_date DATE,</span><br><span class="line">    founder VARCHAR(<span class="number">255</span>),</span><br><span class="line">    created_at TIMESTAMP NOT <span class="literal">NULL</span> <span class="keyword">DEFAULT</span> CURRENT_TIMESTAMP</span><br><span class="line">) <span class="keyword">DEFAULT</span> CHARACTER SET=utf8mb4;</span><br><span class="line">EOT;</span><br><span class="line">    <span class="variable">$result</span> = mysqli_query(<span class="variable">$link</span>, <span class="variable">$createTableSql</span>);</span><br><span class="line">    <span class="keyword">if</span> (<span class="variable">$result</span>) &#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&#x27;テーブルを作成しました&#x27;</span> . PHP_EOL;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&#x27;Error: テーブルの作成に失敗しました&#x27;</span> . PHP_EOL;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&#x27;Debugging Error: &#x27;</span> . mysqli_error(<span class="variable">$link</span>) . PHP_EOL;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="variable">$link</span> = dbConnect();</span><br><span class="line">dropTable(<span class="variable">$link</span>);</span><br><span class="line">createTable(<span class="variable">$link</span>);</span><br><span class="line">mysqli_close(<span class="variable">$link</span>);</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://takeshi-g.github.io/fragments/lesson6-02/" data-id="ckonw9kqc000csj9c6tjydt0u" data-title="PHPからデータベースのテーブルを作成" class="article-share-link">共有</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-lesson6-01" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/fragments/lesson6-01/" class="article-date">
@@ -100,7 +140,7 @@
       
         <p>開発順序: 設計 -&gt; テーブル作成 -&gt; HTML -&gt; ロジック処理 -&gt; CSS</p>
 <h3 id="Webサービスを作成"><a href="#Webサービスを作成" class="headerlink" title="Webサービスを作成"></a>Webサービスを作成</h3><ul>
-<li>PHPでテーブル作成</li>
+<li><a href="https://takeshi-g.github.io/fragments/lesson6_02">PHPでテーブル作成</a></li>
 <li>環境変数の設定</li>
 <li>HTMLで表示</li>
 <li>データの登録</li>
@@ -110,7 +150,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://takeshi-g.github.io/fragments/lesson6-01/" data-id="ckonw56x6000aqo9c73k8de87" data-title="WEBサービスの開発手順" class="article-share-link">共有</a>
+      <a data-url="https://takeshi-g.github.io/fragments/lesson6-01/" data-id="ckonw9kq9000asj9c5tzth6t6" data-title="WEBサービスの開発手順" class="article-share-link">共有</a>
       
       
       
@@ -150,7 +190,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://takeshi-g.github.io/fragments/web-dev001/" data-id="ckonw56x9000cqo9c5i90a0qr" data-title="web_dev001" class="article-share-link">共有</a>
+      <a data-url="https://takeshi-g.github.io/fragments/web-dev001/" data-id="ckonw9kqd000esj9cdazd8veo" data-title="web_dev001" class="article-share-link">共有</a>
       
       
       
@@ -321,7 +361,7 @@ $sqlにSQL文を格納し、mysqli()関数の第２引数に渡すと、PHPか�
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://takeshi-g.github.io/fragments/lesson5-database/" data-id="ckonw56x50009qo9cgw3a81nx" data-title="lesson5 データベース(MySQL)" class="article-share-link">共有</a>
+      <a data-url="https://takeshi-g.github.io/fragments/lesson5-database/" data-id="ckonw9kq70009sj9c3pk66vnr" data-title="lesson5 データベース(MySQL)" class="article-share-link">共有</a>
       
       
       
@@ -440,7 +480,7 @@ $sqlにSQL文を格納し、mysqli()関数の第２引数に渡すと、PHPか�
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://takeshi-g.github.io/fragments/lesson4-01/" data-id="ckonw56x30007qo9c7szo9ise" data-title="lesson4 PHPでテキストアプリ開発" class="article-share-link">共有</a>
+      <a data-url="https://takeshi-g.github.io/fragments/lesson4-01/" data-id="ckonw9kq60007sj9cbpl792zy" data-title="lesson4 PHPでテキストアプリ開発" class="article-share-link">共有</a>
       
       
       
@@ -565,7 +605,7 @@ $sqlにSQL文を格納し、mysqli()関数の第２引数に渡すと、PHPか�
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://takeshi-g.github.io/fragments/wsl2/" data-id="ckonw56xm0014qo9c6djgb41o" data-title="Windows10での開発環境構築 備忘録" class="article-share-link">共有</a>
+      <a data-url="https://takeshi-g.github.io/fragments/wsl2/" data-id="ckonw9kqr0015sj9c3htt0mhb" data-title="Windows10での開発環境構築 備忘録" class="article-share-link">共有</a>
       
       
       
@@ -618,7 +658,7 @@ $sqlにSQL文を格納し、mysqli()関数の第２引数に渡すと、PHPか�
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://takeshi-g.github.io/fragments/hello-world/" data-id="ckonw56ws0001qo9ca622frn5" data-title="Hello World" class="article-share-link">共有</a>
+      <a data-url="https://takeshi-g.github.io/fragments/hello-world/" data-id="ckonw9kpv0001sj9ce7s2h1gr" data-title="Hello World" class="article-share-link">共有</a>
       
       
       
@@ -767,7 +807,7 @@ $sqlにSQL文を格納し、mysqli()関数の第２引数に渡すと、PHPか�
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://takeshi-g.github.io/fragments/lesson3-04/" data-id="ckonw56x20006qo9c7tath2sd" data-title="Lesson3 タスクばらし" class="article-share-link">共有</a>
+      <a data-url="https://takeshi-g.github.io/fragments/lesson3-04/" data-id="ckonw9kq50006sj9cbkl1fwnk" data-title="Lesson3 タスクばらし" class="article-share-link">共有</a>
       
       
       
@@ -842,7 +882,7 @@ $sqlにSQL文を格納し、mysqli()関数の第２引数に渡すと、PHPか�
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://takeshi-g.github.io/fragments/lesson3-03/" data-id="ckonw56x10005qo9c71lv8jgh" data-title="Lesson3 プログラムの作り方2 要件定義" class="article-share-link">共有</a>
+      <a data-url="https://takeshi-g.github.io/fragments/lesson3-03/" data-id="ckonw9kq30005sj9c5v2afl99" data-title="Lesson3 プログラムの作り方2 要件定義" class="article-share-link">共有</a>
       
       
       
@@ -889,7 +929,7 @@ $sqlにSQL文を格納し、mysqli()関数の第２引数に渡すと、PHPか�
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://takeshi-g.github.io/fragments/lesson3-01/" data-id="ckonw56wv0002qo9chx8826r0" data-title="lesson3 プログラムの作り方" class="article-share-link">共有</a>
+      <a data-url="https://takeshi-g.github.io/fragments/lesson3-01/" data-id="ckonw9kpy0002sj9c360s5zyl" data-title="lesson3 プログラムの作り方" class="article-share-link">共有</a>
       
       
       
@@ -903,95 +943,12 @@ $sqlにSQL文を格納し、mysqli()関数の第２引数に渡すと、PHPか�
 
 
   
-    <article id="post-lesson3-02" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/fragments/lesson3-02/" class="article-date">
-  <time class="dt-published" datetime="2021-04-02T00:36:13.000Z" itemprop="datePublished">2021-04-02</time>
-</a>
+
+
+  <nav id="page-nav">
     
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/fragments/lesson3-02/">Lesson3 プログラムの作り方1 課題定義</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h2 id="課題定義の方法"><a href="#課題定義の方法" class="headerlink" title="課題定義の方法"></a>課題定義の方法</h2><ul>
-<li>何の課題を解決するのか、どのような状態になればよいのかを最初に決めよう</li>
-<li>課題定義で決めること<ul>
-<li>背景。目的</li>
-<li>ゴール(達成状態)</li>
-<li>やらないこと</li>
-</ul>
-</li>
-</ul>
-<h3 id="背景・目的"><a href="#背景・目的" class="headerlink" title="背景・目的"></a>背景・目的</h3><ul>
-<li>解決したい課題は？</li>
-<li>何のためにしたいのか？</li>
-<li>なぜシステム化する必要があるのか？</li>
-</ul>
-<h3 id="ゴール-達成状態"><a href="#ゴール-達成状態" class="headerlink" title="ゴール(達成状態)"></a>ゴール(達成状態)</h3><ul>
-<li>目的は？</li>
-<li>達成した時にどのような状態になっていればよいのか？</li>
-</ul>
-<h3 id="やらないこと"><a href="#やらないこと" class="headerlink" title="やらないこと"></a>やらないこと</h3><ul>
-<li>スコープの対象外のことは？</li>
-<li>制約条件は？</li>
-</ul>
-<h2 id="インセプションデッキ"><a href="#インセプションデッキ" class="headerlink" title="インセプションデッキ"></a>インセプションデッキ</h2><p>  もっとちゃんとやるなら、インセプションデッキに基づいてやっていく</p>
-<h3 id="WHYを明確にする"><a href="#WHYを明確にする" class="headerlink" title="WHYを明確にする"></a>WHYを明確にする</h3><ol>
-<li>我々はなぜここにいるのか</li>
-<li>エレベーターピット</li>
-<li>パッケージデザイン</li>
-<li>やらないことリスト</li>
-<li>「ご近所さん」リスト</li>
-</ol>
-<h3 id="HOWを明確にする"><a href="#HOWを明確にする" class="headerlink" title="HOWを明確にする"></a>HOWを明確にする</h3><ol>
-<li>技術的な解決策</li>
-<li>夜も眠れない問題</li>
-<li>期間を見極める</li>
-<li>トレードオフスライダー</li>
-<li>何がどれだけ必要か</li>
-</ol>
-<h2 id="「読書ログサービス」-の課題定義"><a href="#「読書ログサービス」-の課題定義" class="headerlink" title="「読書ログサービス」 の課題定義"></a>「読書ログサービス」 の課題定義</h2><h3 id="背景・目的-1"><a href="#背景・目的-1" class="headerlink" title="背景・目的"></a>背景・目的</h3><ul>
-<li>日々本を読んでも内容を忘れてしまう。</li>
-<li>読んだ本の感想を記録しておけるようにしたい。</li>
-<li>書籍名や著者名、評価スコア、読書状況も管理したいが、既存のメモアプリだと項目ごとに管理できない</li>
-<li>既存の読書管理差ビスもあるが、自分好みに項目を設定できない<h3 id="ゴール（達成状態）"><a href="#ゴール（達成状態）" class="headerlink" title="ゴール（達成状態）"></a>ゴール（達成状態）</h3></li>
-<li>読書ログを登録できる(書籍名、著者名、読書状況、評価、感想)</li>
-<li>読書ログを表示できる<h3 id="やらないこと-1"><a href="#やらないこと-1" class="headerlink" title="やらないこと"></a>やらないこと</h3></li>
-<li>最低限以外の機能(変更、削除、会員登録機能など)</li>
-<li>PHPの高度な機能の使用(クラス、例外など)</li>
-<li>インフラの構築(Herokuを使用)</li>
-</ul>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://takeshi-g.github.io/fragments/lesson3-02/" data-id="ckonw56wy0003qo9c39s2f92d" data-title="Lesson3 プログラムの作り方1 課題定義" class="article-share-link">共有</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/fragments/tags/%E8%AA%AD%E6%9B%B8%E3%83%AD%E3%82%B0%E3%82%B5%E3%83%BC%E3%83%93%E3%82%B9/" rel="tag">読書ログサービス</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/fragments/tags/%E8%AA%B2%E9%A1%8C%E5%AE%9A%E7%BE%A9/" rel="tag">課題定義</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-
+    <span class="page-number current">1</span><a class="page-number" href="/fragments/page/2/">2</a><a class="extend next" rel="next" href="/fragments/page/2/">次へ &raquo;</a>
+  </nav>
 
 </section>
         
@@ -1036,6 +993,10 @@ $sqlにSQL文を格納し、mysqli()関数の第２引数に渡すと、PHPか�
       <ul>
         
           <li>
+            <a href="/fragments/lesson6-02/">PHPからデータベースのテーブルを作成</a>
+          </li>
+        
+          <li>
             <a href="/fragments/lesson6-01/">WEBサービスの開発手順</a>
           </li>
         
@@ -1049,10 +1010,6 @@ $sqlにSQL文を格納し、mysqli()関数の第２引数に渡すと、PHPか�
         
           <li>
             <a href="/fragments/lesson4-01/">lesson4 PHPでテキストアプリ開発</a>
-          </li>
-        
-          <li>
-            <a href="/fragments/wsl2/">Windows10での開発環境構築 備忘録</a>
           </li>
         
       </ul>
